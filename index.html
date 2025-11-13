@@ -1,213 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">  
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Coffee Shop</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:#0f0f0f;color:#fff;overflow-x:hidden;scroll-behavior:smooth;}
-a{text-decoration:none;color:#fff;transition:color .3s;}
-a:hover{color:#d4a373;}
-
-/* HEADER */
-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:20px 60px;position:fixed;width:100%;top:0;left:0;
-  background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);z-index:1000;
-  border-bottom:1px solid rgba(255,255,255,0.1);
+/* ---------- Base ---------- */
+:root{
+  --bg:#0f0f0f;
+  --panel:#141414;
+  --muted:#ccc;
+  --accent:#d4a373;
+  --accent-2:#ffb347;
+  --glass: rgba(255,255,255,0.04);
+  --maxw:1200px;
+  --gap:24px;
 }
-.logo{font-size:26px;color:#d4a373;font-weight:bold;letter-spacing:1px;}
-nav{display:flex;gap:30px;align-items:center;}
-nav a{position:relative;padding:4px 0;}
-nav a::after{
-  content:'';position:absolute;bottom:0;left:0;width:0;height:2px;
-  background:#d4a373;transition:.3s;
-}
-nav a:hover::after{width:100%;}
-#menu-btn{font-size:30px;color:#d4a373;cursor:pointer;display:none;}
-
-/* SECTION BASE */
-section{padding:120px 60px;min-height:100vh;}
-section h2{font-size:45px;margin-bottom:20px;color:#d4a373;}
-section p{max-width:700px;color:#ccc;font-size:16px;line-height:1.6;}
-
-/* HERO */
-.hero{display:flex;justify-content:space-between;align-items:center;min-height:100vh;}
-.hero h1{font-size:65px;color:#d4a373;margin-bottom:10px;}
-.hero p{max-width:420px;margin-bottom:20px;}
-.hero-img img{width:420px;animation:float 4s infinite ease-in-out;}
-@keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-20px);}100%{transform:translateY(0);}}
-
-/* ABOUT */
-#about{background:#141414;padding:120px 60px;border-top:1px solid rgba(255,255,255,0.05);}
-#about h2{color:#ffb347;}
-#about p{color:#ddd;}
-
-/* GALLERY */
-#gallery{
-  border-top:1px solid rgba(255,255,255,0.05);
-  background:#0f0f0f;
-}
-.gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:15px;
-  margin-top:40px;
-}
-.gallery-grid img{
-  width:100%;height:220px;object-fit:cover;border-radius:12px;
-  transition:transform .4s ease, box-shadow .4s ease;
-  cursor:pointer;
-}
-.gallery-grid img:hover{
-  transform:scale(1.1);
-  box-shadow:0 10px 20px rgba(0,0,0,0.6);
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:#fff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+  scroll-behavior:smooth;
 }
 
-/* STORE LOCATIONS */
-#locations{
-  background:#141414;
-  border-top:1px solid rgba(255,255,255,0.05);
+/* ---------- Header ---------- */
+.header-wrap{
+  position:fixed;inset:0 0 auto 0;height:72px;z-index:1200;
+  background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.15));
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
 }
-.locations-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
-  gap:30px;
-  margin-top:40px;
+.header{
+  max-width:var(--maxw);margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 24px;
 }
-.location-box{
-  background:#1a1a1a;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 4px 15px rgba(0,0,0,0.3);
-  transition:transform .3s;
+.logo{font-size:22px;color:var(--accent);font-weight:700;letter-spacing:1px}
+.nav{display:flex;gap:26px;align-items:center}
+.nav a{color:#fff;text-decoration:none;position:relative;padding:6px 0;font-weight:500}
+.nav a::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--accent);transition:width .25s}
+.nav a:hover::after{width:100%}
+.menu-btn{display:none;font-size:26px;color:var(--accent);background:transparent;border:none;cursor:pointer}
+
+/* ---------- Hero ---------- */
+section{padding:120px 24px;min-height:100vh}
+.container{max-width:var(--maxw);margin:0 auto}
+.hero{display:flex;gap:40px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.hero-left{flex:1;min-width:280px;max-width:620px}
+.hero h1{font-size:56px;color:var(--accent);line-height:1;margin-bottom:12px;animation:fadeInUp .6s ease both}
+.hero p{color:var(--muted);max-width:540px;margin-bottom:20px;animation:fadeInUp .7s ease both}
+.cta{display:flex;gap:12px;align-items:center}
+.btn{
+  padding:12px 24px;border-radius:8px;border:none;cursor:pointer;font-weight:700;
+  transition:transform .18s ease, box-shadow .18s ease;
 }
-.location-box:hover{transform:translateY(-5px);}
-.location-box h3{color:#ffb347;margin-bottom:10px;}
-.location-box p{color:#ccc;margin-bottom:10px;}
-.location-box iframe{
-  width:100%;
-  height:220px;
-  border:0;
-  border-radius:10px;
+.btn-primary{background:var(--accent);color:#000}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(212,163,115,0.12)}
+.btn-ghost{background:transparent;border:1px solid var(--glass);color:var(--muted)}
+.btn-ghost:hover{transform:translateY(-3px)}
+
+/* hero image */
+.hero-img{flex:1;min-width:260px;display:flex;justify-content:center;align-items:center}
+.hero-img img{width:420px;max-width:100%;display:block;animation:float 4s ease-in-out infinite}
+
+/* ---------- Sections ---------- */
+#about{background:var(--panel);padding:80px 24px;border-top:1px solid rgba(255,255,255,0.03)}
+#about h2{color:var(--accent-2);margin-bottom:12px;font-size:36px}
+#about p{color:#ddd;max-width:760px}
+
+/* gallery */
+#gallery{padding:80px 24px}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.gallery-grid img{width:100%;height:200px;object-fit:cover;border-radius:12px;transition:transform .35s ease,box-shadow .35s ease;cursor:pointer}
+.gallery-grid img:hover{transform:scale(1.06);box-shadow:0 14px 30px rgba(0,0,0,0.6)}
+
+/* locations */
+#locations{background:var(--panel);padding:80px 24px;border-top:1px solid rgba(255,255,255,0.03)}
+.locations-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:20px}
+.location-box{background:#1a1a1a;padding:18px;border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,0.35);transition:transform .25s}
+.location-box:hover{transform:translateY(-6px)}
+.location-box h3{color:var(--accent-2);margin-bottom:8px}
+.location-box iframe{width:100%;height:220px;border-radius:10px;border:0;display:block}
+
+/* contact */
+#contact{padding:80px 24px;background:var(--panel);border-top:1px solid rgba(255,255,255,0.03)}
+.contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.contact-box{background:#1a1a1a;padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.3);transform:translateY(0);opacity:1;animation:fadeUp .6s both}
+.contact-box h3{color:var(--accent-2);margin-bottom:6px}
+.contact-box p{color:var(--muted);font-size:14px}
+
+/* popup (login/signup) */
+.popup-bg{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:2200}
+.popup-box{width:360px;background:#1a1a1a;padding:26px;border-radius:10px;animation:pop .32s ease both}
+.popup-box h3{color:var(--accent);text-align:center;margin-bottom:12px}
+.popup-box input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:none;background:#2b2b2b;color:#fff}
+
+/* footer */
+footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rgba(255,255,255,0.03);background:transparent}
+
+/* ---------- Animations ---------- */
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){
+  .gallery-grid{grid-template-columns:repeat(3,1fr)}
+  .locations-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-grid{grid-template-columns:repeat(2,1fr)}
+  .hero h1{font-size:44px}
+}
+@media (max-width:760px){
+  .header-wrap{height:64px}
+  .menu-btn{display:block}
+  .nav{position:fixed;right:20px;top:64px;background:#0e0e0e;padding:14px;border-radius:10px;flex-direction:column;gap:8px;display:none;min-width:160px;box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+  .nav.show{display:flex}
+  section{padding:100px 16px}
+  .hero{flex-direction:column-reverse;text-align:center;gap:20px;padding-top:40px}
+  .hero-left{max-width:100%}
+  .hero h1{font-size:32px}
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
+  .locations-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .hero-img img{width:280px}
+}
+@media (max-width:420px){
+  .hero h1{font-size:26px}
+  .hero-img img{width:220px}
+  .gallery-grid img{height:140px}
+  .contact-box p{font-size:13px}
 }
 
-/* CONTACT */
-#contact{
-  background:#141414;border-top:1px solid rgba(255,255,255,0.05);
-}
-.contact-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:20px;
-  margin-top:40px;
-}
-.contact-box{
-  background:#1a1a1a;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 4px 15px rgba(0,0,0,0.3);
-  opacity:0;
-  transform:translateY(20px);
-  animation:fadeUp 0.6s forwards;
-}
-.contact-box:nth-child(1){animation-delay:0.1s;}
-.contact-box:nth-child(2){animation-delay:0.2s;}
-.contact-box:nth-child(3){animation-delay:0.3s;}
-.contact-box:nth-child(4){animation-delay:0.4s;}
-.contact-box:nth-child(5){animation-delay:0.5s;}
-.contact-box:nth-child(6){animation-delay:0.6s;}
-.contact-box:nth-child(7){animation-delay:0.7s;}
-.contact-box:nth-child(8){animation-delay:0.8s;}
-@keyframes fadeUp{
-  to{opacity:1;transform:translateY(0);}
-}
-.contact-box h3{color:#ffb347;margin-bottom:10px;}
-.contact-box p{color:#ccc;margin-bottom:6px;}
-.contact-box a{color:#d4a373;transition:.3s;}
-.contact-box a:hover{color:#ffb347;}
-
-/* POPUP */
-.popup-bg{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:2000;
-}
-.popup-box{
-  width:350px;background:#1a1a1a;padding:30px;border-radius:10px;animation:pop .4s ease;
-}
-@keyframes pop{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
-.popup-box h3{text-align:center;margin-bottom:20px;color:#d4a373;}
-.popup-box input{
-  width:100%;padding:12px;margin:10px 0;border:none;border-radius:6px;background:#2b2b2b;color:white;
-}
-.popup-box button{
-  width:100%;padding:12px;background:#d4a373;color:black;font-weight:bold;border:none;border-radius:6px;
-  cursor:pointer;margin-top:10px;
-}
-.close-btn{text-align:center;margin-top:10px;color:#ccc;cursor:pointer;}
-
-/* RESPONSIVE */
-@media(max-width:760px){
- #menu-btn{display:block;}
- nav{display:none;flex-direction:column;background:#000;position:absolute;top:80px;right:20px;
- padding:20px;border-radius:10px;gap:15px;}
- .hero{flex-direction:column;text-align:center;padding-top:150px;}
- .hero-img img{width:300px;}
-}
+/* small helper */
+.visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">☕ Coffee Shop</div>
-  <div id="menu-btn">☰</div>
-  <nav id="nav">
-    <a href="#home">Home</a>
-    <a href="#about">About Shop</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#locations">Store Locations</a>
-    <a href="#contact">Contact</a>
-    <a href="#" id="loginBtn">Login</a>
-    <a href="#" id="signupBtn">Sign Up</a>
-  </nav>
-</header>
+<!-- Header -->
+<div class="header-wrap">
+  <header class="header">
+    <div class="logo">☕ Coffee Shop</div>
+    <nav class="nav" id="nav">
+      <a href="#home">Home</a>
+      <a href="#about">About Shop</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#locations">Store Locations</a>
+      <a href="#contact">Contact</a>
+      <a href="#" id="loginBtn">Login</a>
+      <a href="#" id="signupBtn">Sign Up</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">☰</button>
+  </header>
+</div>
 
 <!-- HOME -->
 <section id="home" class="hero">
-  <div>
+  <div class="container hero-left">
     <h1>Welcome to Coffee Shop</h1>
-    <p>Discover handcrafted coffee made fresh with love and premium ingredients.</p>
-    <button onclick="location.href='page2.html'" style="padding:12px 28px;background:#d4a373;border:none;border-radius:6px;color:#000;cursor:pointer;font-weight:bold;">Explore Menu</button>
+    <p>Discover handcrafted coffee made fresh with love and premium ingredients. Cozy place — freshly brewed.</p>
+    <div class="cta">
+      <button class="btn btn-primary" onclick="location.href='page2.html'">Explore Menu</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('locations').scrollIntoView({behavior:'smooth'})">Find a Branch</button>
+    </div>
   </div>
-  <div class="hero-img">
-    <img src="images/cup1-removebg-preview.png">
+
+  <div class="container hero-img" aria-hidden="true">
+    <img src="images/cup1-removebg-preview.png" alt="Cup of coffee">
   </div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
-  <h2>About Our Coffee Shop</h2>
-  <p>We’re passionate about crafting the finest coffee experience. Each cup we brew combines high-quality beans, rich aroma, and the warmth of our baristas’ love. Whether you’re enjoying a cappuccino, mocha, or our special caramel latte, we promise a delightful taste of perfection.</p>
+  <div class="container">
+    <h2>About Our Coffee Shop</h2>
+    <p>We’re passionate about crafting the finest coffee experience. Each cup we brew combines high-quality beans, rich aroma, and the warmth of our baristas’ love. Whether you’re enjoying a cappuccino, mocha, or our special caramel latte, we promise a delightful taste of perfection.</p>
+  </div>
 </section>
 
 <!-- GALLERY -->
 <section id="gallery">
-  <h2>Our Gallery</h2>
-  <p>Take a visual tour through some of our favorite creations and cozy corners of our café.</p>
-  <div class="gallery-grid">
-    <!-- 24 demo images -->
-    <img src="images/gallery1.avif">
-    <img src="images/gallery2.avif">
-    <img src="images/gallery3.avif">
-    <img src="images/gallery4.avif">
-    <img src="images/gallery5.avif">
-    <img src="images/gallery6.avif">
-    <img src="images/gallery7.avif">
-    <img src="images/gallery8.webp">
-    <img src="images/gallery9.webp">
+  <div class="container">
+    <h2>Our Gallery</h2>
+    <p style="color:var(--muted)">Take a visual tour through some of our favorite creations and cozy corners of our café.</p>
+    <div class="gallery-grid" aria-hidden="false">
+      <!-- if you don't have all images, browser will show broken; replace or keep fewer -->
+      <img src="images/gallery1.avif" alt="gallery image 1">
+      <img src="images/gallery2.avif" alt="gallery image 2">
+      <img src="images/gallery3.avif" alt="gallery image 3">
+      <img src="images/gallery4.avif" alt="gallery image 4">
+      <img src="images/gallery5.avif" alt="gallery image 5">
+      <img src="images/gallery6.avif" alt="gallery image 6">
+      <img src="images/gallery7.avif" alt="gallery image 7">
+      <img src="images/gallery8.webp" alt="gallery image 8">
+      <img src="images/gallery9.webp">
     <img src="images/gallery10.webp">
     <img src="images/gallery11.avif">
     <img src="images/gallery12.avif">
@@ -231,37 +221,55 @@ section p{max-width:700px;color:#ccc;font-size:16px;line-height:1.6;}
     <img src="images/gallery30.avif">
     <img src="images/gallery31.avif">
     <img src="images/gallery32.avif">
+
+    </div>
   </div>
 </section>
 
-<!-- STORE LOCATIONS -->
+<!-- LOCATIONS -->
 <section id="locations">
-  <h2>Our Store Locations</h2>
-  <p>Visit one of our branches and enjoy a cup of freshly brewed perfection!</p>
+  <div class="container">
+    <h2>Our Store Locations</h2>
+    <p style="color:var(--muted)">Visit one of our branches and enjoy a cup of freshly brewed perfection!</p>
 
-  <div class="locations-grid">
-    <!-- 8 branch locations -->
-    <div class="location-box">
-      <h3>Dhaka - Dhanmondi Branch</h3>
-      <p>House 12, Road 5, Dhanmondi, Dhaka.</p>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.651712491734!2d90.36487667508295!3d23.79353248715965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf50f147cc79%3A0x692ea6b9b2d9c1b7!2sDhanmondi%20Lake!5e0!3m2!1sen!2sbd!4v1699879289309!5m2!1sen!2sbd" loading="lazy"></iframe>
-    </div>
-    <div class="location-box">
-      <h3>Chittagong - GEC Branch</h3>
-      <p>GEC Circle, Nasirabad, Chattogram.</p>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.247925415153!2d91.82048537504977!3d22.354899179650202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30acd884fcf171b5%3A0xb908b0eaa9791e6b!2sGEC%20Circle!5e0!3m2!1sen!2sbd!4v1699879340191!5m2!1sen!2sbd" loading="lazy"></iframe>
-    </div>
-    <div class="location-box">
-      <h3>Sylhet - Zindabazar Branch</h3>
-      <p>Zindabazar, Sylhet City.</p>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3647.932955011894!2d91.86437817508512!3d24.896859677905344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3750551d9c882fbf%3A0x6e0e9b3edb58a271!2sZindabazar%2C%20Sylhet!5e0!3m2!1sen!2sbd!4v1699879365405!5m2!1sen!2sbd" loading="lazy"></iframe>
-    </div>
-    <div class="location-box">
+    <div class="locations-grid">
+      <div class="location-box">
+        <h3>Dhaka - Dhanmondi Branch</h3>
+        <p>House 12, Road 5, Dhanmondi, Dhaka.</p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.651712491734!2d90.36487667508295!3d23.79353248715965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf50f147cc79%3A0x692ea6b9b2d9c1b7!2sDhanmondi%20Lake!5e0!3m2!1sen!2sbd!4v1699879289309!5m2!1sen!2sbd" loading="lazy"></iframe>
+      </div>
+
+      <div class="location-box">
+        <h3>Chittagong - GEC Branch</h3>
+        <p>GEC Circle, Nasirabad, Chattogram.</p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.247925415153!2d91.82048537504977!3d22.354899179650202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30acd884fcf171b5%3A0xb908b0eaa9791e6b!2sGEC%20Circle!5e0!3m2!1sen!2sbd!4v1699879340191!5m2!1sen!2sbd" loading="lazy"></iframe>
+      </div>
+
+      <div class="location-box">
+        <h3>Sylhet - Zindabazar Branch</h3>
+        <p>Zindabazar, Sylhet City.</p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3647.932955011894!2d91.86437817508512!3d24.896859677905344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3750551d9c882fbf%3A0x6e0e9b3edb58a271!2sZindabazar%2C%20Sylhet!5e0!3m2!1sen!2sbd!4v1699879365405!5m2!1sen!2sbd" loading="lazy"></iframe>
+      </div>
+          <div class="location-box">
       <h3>Rajshahi - Shaheb Bazar Branch</h3>
       <p>Shaheb Bazar, Rajshahi City.</p>
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3643.403946565849!2d88.6012651750908!3d24.37057167818195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fbef4879e5a1c1%3A0x9a504fba53cb83de!2sShaheb%20Bazar%2C%20Rajshahi!5e0!3m2!1sen!2sbd!4v1699879394234!5m2!1sen!2sbd" loading="lazy"></iframe>
     </div>
-    <div class="location-box">
+        <div class="location-box">
+      <h3>Uttara - Rajlokkhi Branch</h3>
+      <p>Uttara sector 11, Dhaka City.</p>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3643.403946565849!2d88.6012651750908!3d24.37057167818195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fbef4879e5a1c1%3A0x9a504fba53cb83de!2sShaheb%20Bazar%2C%20Rajshahi!5e0!3m2!1sen!2sbd!4v1699879394234!5m2!1sen!2sbd" loading="lazy"></iframe>
+    </div>
+
+
+
+
+
+
+
+
+
+          <div class="location-box">
       <h3>Khulna - New Market Branch</h3>
       <p>New Market Road, Khulna.</p>
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.454329197871!2d89.55656737507492!3d22.81044642941535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ff9aaf6e4b42c5%3A0x1773ecde5569eac!2sKhulna%20New%20Market!5e0!3m2!1sen!2sbd!4v1699879426650!5m2!1sen!2sbd" loading="lazy"></iframe>
@@ -281,44 +289,50 @@ section p{max-width:700px;color:#ccc;font-size:16px;line-height:1.6;}
       <p>Jalesharitala, Bogura Cantoment.</p>
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.454329197871!2d89.55656737507492!3d22.81044642941535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ff9aaf6e4b42c5%3A0x1773ecde5569eac!2sKhulna%20New%20Market!5e0!3m2!1sen!2sbd!4v1699879426650!5m2!1sen!2sbd" loading="lazy"></iframe>
     </div>
+
+    </div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <h2>Contact Us</h2>
-  <p>We’d love to hear from you! Reach out to us anytime for inquiries, collaborations, or a friendly coffee chat.</p>
-  
-  <div class="contact-grid">
-    <div class="contact-box">
-      <h3>Dhaka - Dhanmondi Branch</h3>
-      <p>Email: <a href="mailto:dhaka@coffeestore.com">dhaka@coffeestore.com</a></p>
-      <p>Phone: <a href="tel:+880123400001">+880 1234 00001</a></p>
-      <p>Address: House 12, Road 5, Dhanmondi, Dhaka</p>
-    </div>
-    
-    <div class="contact-box">
-      <h3>Chittagong - GEC Branch</h3>
-      <p>Email: <a href="mailto:ctg@coffeestore.com">ctg@coffeestore.com</a></p>
-      <p>Phone: <a href="tel:+880123400002">+880 1234 00002</a></p>
-      <p>Address: GEC Circle, Nasirabad, Chattogram</p>
-    </div>
-    
-    <div class="contact-box">
-      <h3>Sylhet - Zindabazar Branch</h3>
-      <p>Email: <a href="mailto:sylhet@coffeestore.com">sylhet@coffeestore.com</a></p>
-      <p>Phone: <a href="tel:+880123400003">+880 1234 00003</a></p>
-      <p>Address: Zindabazar, Sylhet City</p>
-    </div>
-    
-    <div class="contact-box">
-      <h3>Rajshahi - Shaheb Bazar Branch</h3>
-      <p>Email: <a href="mailto:rajshahi@coffeestore.com">rajshahi@coffeestore.com</a></p>
-      <p>Phone: <a href="tel:+880123400004">+880 1234 00004</a></p>
-      <p>Address: Shaheb Bazar, Rajshahi City</p>
-    </div>
-    
-    <div class="contact-box">
+  <div class="container">
+    <h2>Contact Us</h2>
+    <p style="color:var(--muted)">We’d love to hear from you! Reach out to us anytime for inquiries, collaborations, or a friendly coffee chat.</p>
+
+    <div class="contact-grid">
+      <div class="contact-box">
+        <h3>Dhaka - Dhanmondi Branch</h3>
+        <p>Email: <a href="mailto:dhaka@coffeestore.com">dhaka@coffeestore.com</a></p>
+        <p>Phone: <a href="tel:+880123400001">+880 1234 00001</a></p>
+        <p>Address: House 12, Road 5, Dhanmondi, Dhaka</p>
+      </div>
+
+      <div class="contact-box">
+        <h3>Chittagong - GEC Branch</h3>
+        <p>Email: <a href="mailto:ctg@coffeestore.com">ctg@coffeestore.com</a></p>
+        <p>Phone: <a href="tel:+880123400002">+880 1234 00002</a></p>
+        <p>Address: GEC Circle, Nasirabad, Chattogram</p>
+      </div>
+
+      <div class="contact-box">
+        <h3>Sylhet - Zindabazar Branch</h3>
+        <p>Email: <a href="mailto:sylhet@coffeestore.com">sylhet@coffeestore.com</a></p>
+        <p>Phone: <a href="tel:+880123400003">+880 1234 00003</a></p>
+        <p>Address: Zindabazar, Sylhet City</p>
+      </div>
+
+      <div class="contact-box">
+        <h3>Rajshahi - Shaheb Bazar Branch</h3>
+        <p>Email: <a href="mailto:rajshahi@coffeestore.com">rajshahi@coffeestore.com</a></p>
+        <p>Phone: <a href="tel:+880123400004">+880 1234 00004</a></p>
+        <p>Address: Shaheb Bazar, Rajshahi City</p>
+      </div>
+
+
+
+
+         <div class="contact-box">
       <h3>Khulna - New Market Branch</h3>
       <p>Email: <a href="mailto:khulna@coffeestore.com">khulna@coffeestore.com</a></p>
       <p>Phone: <a href="tel:+880123400005">+880 1234 00005</a></p>
@@ -345,6 +359,8 @@ section p{max-width:700px;color:#ccc;font-size:16px;line-height:1.6;}
       <p>Phone: <a href="tel:+880123400008">+880 1234 00008</a></p>
       <p>Address: Jalesharitala, Bogura Cantonment</p>
     </div>
+
+    </div>
   </div>
 </section>
 
@@ -354,8 +370,8 @@ section p{max-width:700px;color:#ccc;font-size:16px;line-height:1.6;}
     <h3>Login</h3>
     <input type="email" placeholder="Email">
     <input type="password" placeholder="Password">
-    <button>Login</button>
-    <div class="close-btn" onclick="closePopups()">Close</div>
+    <button style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Login</button>
+    <div class="close-btn" style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
   </div>
 </div>
 
@@ -365,27 +381,49 @@ section p{max-width:700px;color:#ccc;font-size:16px;line-height:1.6;}
     <input type="text" placeholder="Full Name">
     <input type="email" placeholder="Email">
     <input type="password" placeholder="Password">
-    <button>Sign Up</button>
-    <div class="close-btn" onclick="closePopups()">Close</div>
+    <button style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Sign Up</button>
+    <div class="close-btn" style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
   </div>
 </div>
 
+<footer>
+  © <span id="year"></span> Coffee Shop — handcrafted with ☕
+</footer>
+
 <script>
-const nav=document.getElementById('nav');
-document.getElementById('menu-btn').onclick=()=>{nav.style.display = nav.style.display==='flex'?'none':'flex';};
+/* header nav toggle */
+const menuBtn = document.getElementById('menuBtn');
+const nav = document.getElementById('nav');
 
-const loginBtn=document.getElementById('loginBtn');
-const signupBtn=document.getElementById('signupBtn');
-const loginPopup=document.getElementById('loginPopup');
-const signupPopup=document.getElementById('signupPopup');
+if(menuBtn){
+  menuBtn.addEventListener('click', ()=>{
+    nav.classList.toggle('show');
+    const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+    menuBtn.setAttribute('aria-expanded', String(!expanded));
+  });
+}
 
-loginBtn.onclick=()=>{loginPopup.style.display='flex';};
-signupBtn.onclick=()=>{signupPopup.style.display='flex';};
+/* login / signup popups */
+const loginBtn = document.getElementById('loginBtn');
+const signupBtn = document.getElementById('signupBtn');
+const loginPopup = document.getElementById('loginPopup');
+const signupPopup = document.getElementById('signupPopup');
+
+if(loginBtn) loginBtn.addEventListener('click', (e)=>{ e.preventDefault(); loginPopup.style.display='flex'; });
+if(signupBtn) signupBtn.addEventListener('click', (e)=>{ e.preventDefault(); signupPopup.style.display='flex'; });
 
 function closePopups(){
-  loginPopup.style.display='none';
-  signupPopup.style.display='none';
+  if(loginPopup) loginPopup.style.display='none';
+  if(signupPopup) signupPopup.style.display='none';
 }
+
+/* footer year */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* optional: close mobile menu when clicking a link */
+document.querySelectorAll('.nav a').forEach(a=>{
+  a.addEventListener('click', ()=>{ if(nav.classList.contains('show')) nav.classList.remove('show'); });
+});
 </script>
 
 </body>
