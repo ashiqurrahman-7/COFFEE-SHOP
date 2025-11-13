@@ -42,8 +42,16 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
 .details-panel.active{max-height:450px;opacity:1}
 
 /* small buttons */
-#moreBtn{margin-top:14px;padding:10px 16px;border-radius:8px;border:none;background:var(--accent);color:#000;font-weight:700;cursor:pointer}
+#moreBtn,#addCartBtn{margin-top:14px;padding:10px 16px;border-radius:8px;border:none;background:var(--accent);color:#000;font-weight:700;cursor:pointer}
 .cancel{margin-left:8px;padding:10px 16px;border-radius:8px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
+
+/* cart */
+.cart-container{margin-top:20px;background:#1a1a1a;padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.3)}
+.cart-container h3{color:var(--accent-2);margin-bottom:12px}
+.cart-items{list-style:none;padding-left:0;max-height:200px;overflow-y:auto;margin-bottom:12px}
+.cart-items li{padding:8px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center}
+.cart-items li:last-child{border-bottom:none}
+.remove-btn{padding:4px 8px;background:#ff4d4d;border:none;border-radius:6px;color:#fff;cursor:pointer}
 
 /* responsive */
 @media (max-width:1000px){
@@ -96,6 +104,7 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
         <div>
           <button id="moreBtn">More Details</button>
           <button class="cancel" id="cancelBtn" style="display:none">Close</button>
+          <button id="addCartBtn">Add to Cart</button>
         </div>
 
         <div class="details-panel" id="detailsPanel">
@@ -105,6 +114,12 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
             <li>Slow drip infusion</li>
             <li>Topped with cream and strawberry sauce</li>
           </ul>
+        </div>
+
+        <div class="cart-container">
+          <h3>Cart</h3>
+          <ul class="cart-items" id="cartItems"></ul>
+          <div>Total: <span id="cartTotal">$0.00</span></div>
         </div>
       </div>
     </div>
@@ -147,12 +162,12 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
 
 <script>
 const coffees = {
-  strawberry:{name:'Strawberry Coffee',color:'orange',img:'images/cup2-removebg-preview.png',text:'Freshly brewed strawberry infused coffee.',price:'$39.99'},
-  green:{name:'Green Tea Coffee',color:'#8acb88',img:'images/cup3-removebg-preview.png',text:'Smooth matcha green tea latte.',price:'$29.99'},
-  choco:{name:'Chocolate Coffee',color:'#d4a373',img:'images/cup4-removebg-preview.png',text:'Velvety cocoa blended coffee.',price:'$34.99'},
-  caramel_sauce:{name:'Caramel Sauce & Vanilla Cream',color:'#c79248',img:'images/caramel-sauce-and-vanilla-cream.png',text:'Caramel sauce with vanilla cream.',price:'$42.99'},
-  mint_cookie:{name:'Iced Mint Cookie Latte',color:'#7fffd4',img:'images/icedmintcookielatte.png',text:'Refreshing iced mint cookie latte.',price:'$36.99'},
-  caramel_mocha:{name:'Iced Caramel Mocha',color:'#b5651d',img:'images/iced-caramel-mocha.png',text:'Chilled caramel mocha.',price:'$44.99'}
+  strawberry:{name:'Strawberry Coffee',color:'orange',img:'images/cup2-removebg-preview.png',text:'Freshly brewed strawberry infused coffee.',price:'39.99'},
+  green:{name:'Green Tea Coffee',color:'#8acb88',img:'images/cup3-removebg-preview.png',text:'Smooth matcha green tea latte.',price:'29.99'},
+  choco:{name:'Chocolate Coffee',color:'#d4a373',img:'images/cup4-removebg-preview.png',text:'Velvety cocoa blended coffee.',price:'34.99'},
+  caramel_sauce:{name:'Caramel Sauce & Vanilla Cream',color:'#c79248',img:'images/caramel-sauce-and-vanilla-cream.png',text:'Caramel sauce with vanilla cream.',price:'42.99'},
+  mint_cookie:{name:'Iced Mint Cookie Latte',color:'#7fffd4',img:'images/icedmintcookielatte.png',text:'Refreshing iced mint cookie latte.',price:'36.99'},
+  caramel_mocha:{name:'Iced Caramel Mocha',color:'#b5651d',img:'images/iced-caramel-mocha.png',text:'Chilled caramel mocha.',price:'44.99'}
 };
 
 const coffeeList = document.querySelectorAll('#coffeeList h3');
@@ -163,24 +178,30 @@ const detailsText = document.getElementById('details-text');
 const detailsPrice = document.getElementById('details-price');
 const moreBtn = document.getElementById('moreBtn');
 const cancelBtn = document.getElementById('cancelBtn');
+const addCartBtn = document.getElementById('addCartBtn');
+const cartItemsEl = document.getElementById('cartItems');
+const cartTotalEl = document.getElementById('cartTotal');
 
+let cart = [];
+
+// coffee selection
 coffeeList.forEach(item=>{
   item.addEventListener('click', ()=>{
     coffeeList.forEach(c=>c.classList.remove('active'));
     item.classList.add('active');
-
     const key = item.dataset.coffee;
     const c = coffees[key];
     if(!c) return;
     coffeeImg.src = c.img;
     detailsName.textContent = c.name;
     detailsText.textContent = c.text;
-    detailsPrice.textContent = c.price;
+    detailsPrice.textContent = '$' + c.price;
     detailsName.style.color = c.color;
     moreBtn.style.background = c.color;
   });
 });
 
+// toggle details panel
 moreBtn.addEventListener('click', ()=>{
   detailsPanel.classList.add('active');
   moreBtn.style.display='none';
@@ -192,7 +213,32 @@ cancelBtn.addEventListener('click', ()=>{
   cancelBtn.style.display='none';
 });
 
-/* Mobile menu toggle (re-used) */
+// cart functionality
+addCartBtn.addEventListener('click', ()=>{
+  const currentCoffee = coffeeList.querySelector('.active').dataset.coffee;
+  const c = coffees[currentCoffee];
+  cart.push({...c});
+  renderCart();
+});
+
+function renderCart(){
+  cartItemsEl.innerHTML = '';
+  let total = 0;
+  cart.forEach((item,index)=>{
+    total += parseFloat(item.price);
+    const li = document.createElement('li');
+    li.innerHTML = `${item.name} - $${item.price} <button class="remove-btn" onclick="removeCartItem(${index})">Remove</button>`;
+    cartItemsEl.appendChild(li);
+  });
+  cartTotalEl.textContent = '$' + total.toFixed(2);
+}
+
+function removeCartItem(index){
+  cart.splice(index,1);
+  renderCart();
+}
+
+/* Mobile menu toggle */
 const menuBtn = document.getElementById('menuBtn');
 const nav = document.getElementById('nav');
 if(menuBtn){
@@ -206,10 +252,8 @@ const loginBtn = document.getElementById('loginBtn');
 const signupBtn = document.getElementById('signupBtn');
 const loginPopup = document.getElementById('loginPopup');
 const signupPopup = document.getElementById('signupPopup');
-
 if(loginBtn) loginBtn.addEventListener('click', (e)=>{ e.preventDefault(); loginPopup.style.display='flex'; })
 if(signupBtn) signupBtn.addEventListener('click', (e)=>{ e.preventDefault(); signupPopup.style.display='flex'; })
-
 function closePopups(){
   if(loginPopup) loginPopup.style.display='none';
   if(signupPopup) signupPopup.style.display='none';
