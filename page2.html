@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coffee Menu</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{background:#0f0f0f;color:white;overflow-x:hidden;scroll-behavior:smooth;}
+
+header{display:flex;justify-content:space-between;padding:20px 60px;
+align-items:center;position:fixed;width:100%;background:rgba(0,0,0,.35);
+backdrop-filter:blur(6px);z-index:1000;}
+header .logo{color:#d4a373;font-size:22px;font-weight:bold;}
+nav a{color:#fff;margin:0 15px;text-decoration:none;}
+nav a:hover{color:#d4a373;}
+
+.container{display:flex;justify-content:space-between;padding:120px 60px;gap:50px;}
+
+.coffee-left{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;}
+.coffee-left img{width:360px;transition:.6s;}
+#moreBtn{margin-top:20px;padding:12px 25px;border:none;border-radius:6px;
+background:orange;color:black;cursor:pointer;font-weight:bold;}
+
+.details-panel{position:absolute;top:0;left:0;width:100%;opacity:0;max-height:0;
+overflow:hidden;transition:.6s;text-align:left;padding-top:40px;}
+.details-panel.active{opacity:1;max-height:450px;}
+.details-panel h1{font-size:42px;color:orange;}
+.details-panel p{max-width:420px;color:#ccc;}
+.details-panel .price{font-size:28px;color:#ffd08d;margin:10px 0;}
+.buy{background:#d4a373;color:#000;padding:12px 26px;border:none;border-radius:6px;}
+.cancel{background:transparent;border:1px solid #d4a373;color:#d4a373;padding:12px 26px;border-radius:6px;}
+
+.coffee-list{flex:1;display:flex;flex-direction:column;gap:20px;}
+.coffee-list h2{cursor:pointer;font-size:22px;transition:.3s;}
+.coffee-list h2.active{font-size:60px;color:#ff69b4;}
+
+.move-image-right{transform:translateX(350px);}
+.move-names-left{transform:translateX(-350px);opacity:0;}
+
+/* POPUP CSS */
+.popup-bg{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:2000;
+}
+.popup-box{
+  width:350px;background:#1a1a1a;padding:30px;border-radius:10px;animation:pop .4s ease;
+}
+@keyframes pop{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+.popup-box h3{text-align:center;margin-bottom:20px;color:#d4a373;}
+.popup-box input{
+  width:100%;padding:12px;margin:10px 0;border:none;border-radius:6px;background:#2b2b2b;color:white;
+}
+.popup-box button{
+  width:100%;padding:12px;background:#d4a373;color:black;font-weight:bold;border:none;border-radius:6px;
+  cursor:pointer;margin-top:10px;
+}
+.close-btn{text-align:center;margin-top:10px;color:#ccc;cursor:pointer;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Coffee Shop</div>
+  <nav>
+    <a href="index.html#home">Home</a>
+    <a href="index.html#about">About Shop</a>
+    <!-- <a href="index.html#blogs">Blogs</a> -->
+    <a href="index.html#contact">Contact</a>
+    <a href="index.html#gallery">Gallery</a>
+    <a href="#" id="loginBtn">Login</a>
+    <a href="#" id="signupBtn">Sign Up</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <div class="coffee-left">
+    <img id="coffee-img" src="images/cup2-removebg-preview.png">
+    <button id="moreBtn">More Details</button>
+
+    <div class="details-panel" id="detailsPanel">
+      <h1 id="details-name">Strawberry Coffee</h1>
+      <p id="details-text">Freshly brewed strawberry infused coffee.</p>
+      <div class="price" id="details-price">$39.99</div>
+      <button class="buy">Buy Now</button>
+      <button class="cancel" id="cancelBtn">Cancel</button>
+    </div>
+  </div>
+
+  <div class="coffee-list" id="coffeeList">
+    <h2 data-coffee="strawberry" class="active">Strawberry Coffee</h2>
+    <h2 data-coffee="green">Green Tea Coffee</h2>
+    <h2 data-coffee="choco">Chocolate Coffee</h2>
+    <h2 data-coffee="caramel_sauce">Caramel Sauce & Vanilla Cream</h2>
+    <h2 data-coffee="mint_cookie">Iced Mint Cookie Latte</h2>
+    <h2 data-coffee="caramel_mocha">Iced Caramel Mocha</h2>
+  </div>
+
+</div>
+
+<!-- LOGIN POPUP -->
+<div class="popup-bg" id="loginPopup">
+  <div class="popup-box">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Login</button>
+    <div class="close-btn" onclick="closePopups()">Close</div>
+  </div>
+</div>
+
+<!-- SIGNUP POPUP -->
+<div class="popup-bg" id="signupPopup">
+  <div class="popup-box">
+    <h3>Sign Up</h3>
+    <input type="text" placeholder="Full Name">
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Sign Up</button>
+    <div class="close-btn" onclick="closePopups()">Close</div>
+  </div>
+</div>
+
+<script>
+const coffees = {
+  strawberry:{name:'Strawberry Coffee',color:'orange',img:'images/cup2-removebg-preview.png',text:'Freshly brewed strawberry infused coffee.',price:'$39.99'},
+  green:{name:'Green Tea Coffee',color:'green',img:'images/cup3-removebg-preview.png',text:'Smooth matcha green tea latte.',price:'$29.99'},
+  choco:{name:'Chocolate Coffee',color:'#d4a373',img:'images/cup4-removebg-preview.png',text:'Velvety cocoa blended coffee.',price:'$34.99'},
+  caramel_sauce:{name:'Caramel Sauce & Vanilla Cream',color:'#c79248',img:'images/caramel-sauce-and-vanilla-cream .png',text:'Caramel sauce with vanilla cream.',price:'$42.99'},
+  mint_cookie:{name:'Iced Mint Cookie Latte',color:'#7fffd4',img:'images/icedmintcookielatte.png',text:'Refreshing iced mint cookie latte.',price:'$36.99'},
+  caramel_mocha:{name:'Iced Caramel Mocha',color:'#b5651d',img:'images/iced-caramel-mocha.png',text:'Chilled caramel mocha.',price:'$44.99'}
+};
+
+const coffeeList=document.querySelectorAll('.coffee-list h2');
+const coffeeImg=document.getElementById('coffee-img');
+const moreBtn=document.getElementById('moreBtn');
+const detailsPanel=document.getElementById('detailsPanel');
+const detailsName=document.getElementById('details-name');
+const detailsText=document.getElementById('details-text');
+const detailsPrice=document.getElementById('details-price');
+const cancelBtn=document.getElementById('cancelBtn');
+const coffeeListBox=document.getElementById('coffeeList');
+
+coffeeList.forEach(item=>{
+  item.addEventListener('click',()=>{
+    coffeeList.forEach(c=>c.classList.remove('active'));
+    item.classList.add('active');
+
+    let c = coffees[item.dataset.coffee];
+    coffeeImg.src = c.img;
+    detailsName.textContent = c.name;
+    detailsText.textContent = c.text;
+    detailsPrice.textContent = c.price;
+    detailsName.style.color = c.color;
+    moreBtn.style.background = c.color;
+  });
+});
+
+moreBtn.onclick=()=>{
+  moreBtn.style.display="none";
+  detailsPanel.classList.add('active');
+  coffeeImg.classList.add('move-image-right');
+  coffeeListBox.classList.add('move-names-left');
+};
+
+cancelBtn.onclick=()=>{
+  moreBtn.style.display="block";
+  detailsPanel.classList.remove('active');
+  coffeeImg.classList.remove('move-image-right');
+  coffeeListBox.classList.remove('move-names-left');
+};
+
+/* POPUP JS */
+const loginBtn=document.getElementById('loginBtn');
+const signupBtn=document.getElementById('signupBtn');
+const loginPopup=document.getElementById('loginPopup');
+const signupPopup=document.getElementById('signupPopup');
+
+loginBtn.onclick=()=>{loginPopup.style.display='flex';};
+signupBtn.onclick=()=>{signupPopup.style.display='flex';};
+
+function closePopups(){
+  loginPopup.style.display='none';
+  signupPopup.style.display='none';
+}
+</script>
+
+</body>
+</html>
+
+
+
+
