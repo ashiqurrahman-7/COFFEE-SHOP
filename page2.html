@@ -50,7 +50,7 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
 .details-panel.active{max-height:450px;opacity:1}
 
 /* small buttons */
-#moreBtn,#addCartBtn{margin-top:14px;padding:10px 16px;border-radius:8px;border:none;background:var(--accent);color:#000;font-weight:700;cursor:pointer}
+#moreBtn,#addCartBtn,#paymentBtn,#goCartBtn{margin-top:14px;padding:10px 16px;border-radius:8px;border:none;background:var(--accent);color:#000;font-weight:700;cursor:pointer}
 .cancel{margin-left:8px;padding:10px 16px;border-radius:8px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
 
 /* cart */
@@ -62,7 +62,7 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
 .remove-btn{padding:4px 8px;background:#ff4d4d;border:none;border-radius:6px;color:#fff;cursor:pointer}
 
 /* payment */
-.payment-container{margin-top:16px}
+.payment-container{margin-top:16px; display:none;}
 .payment-container label{display:block;margin-bottom:6px;cursor:pointer}
 .payment-container input[type="radio"]{margin-right:8px}
 .payment-interface{display:none;margin-top:12px;padding:16px;border-radius:10px}
@@ -110,311 +110,395 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
 <!-- Header -->
 <div class="header-wrap">
 <header class="header">
-<div class="logo">☕ Coffee Shop</div>
-<nav class="nav" id="nav">
-<a href="index.html#home">Home</a>
-<a href="index.html#about">About</a>
-<a href="index.html#contact">Contact</a>
-<a href="#" id="loginBtn">Login</a>
-<a href="#" id="signupBtn">Sign Up</a>
-</nav>
-<button class="menu-btn" id="menuBtn">☰</button>
+  <div class="logo">☕ Coffee Shop</div>
+  <nav class="nav" id="nav">
+    <a href="index.html#home">Home</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="#" id="loginBtn">Login</a>
+    <a href="#" id="signupBtn">Sign Up</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn">☰</button>
 </header>
 </div>
 
 <main class="main">
-<div class="container columns">
-    <!-- Left panel -->
-    <div class="left">
+  <div class="container columns">
+
+    <!-- ALL coffee content (left + right) wrapped so we can hide everything when showing payment -->
+    <div id="coffeeContent" style="width:100%;display:block;">
+
+      <!-- Left panel -->
+      <div class="left" style="float:left;">
         <div class="product-img">
-            <img id="coffee-img" src="images/cup2-removebg-preview.png" alt="coffee image">
+          <img id="coffee-img" src="images/cup2-removebg-preview.png" alt="coffee image">
         </div>
         <div class="info">
-            <h1 id="details-name">Strawberry Coffee</h1>
-            <p id="details-text">Freshly brewed strawberry infused coffee.</p>
-            <div class="price" id="details-price">$39.99</div>
-            <div>
-                <button id="moreBtn">More Details</button>
-                <button class="cancel" id="cancelBtn" style="display:none">Close</button>
-                <button id="addCartBtn">Add to Cart</button>
-            </div>
-            <div class="details-panel" id="detailsPanel">
-                <p style="color:var(--muted)">This specialty cup blends fruity notes with smooth espresso for a refreshing seasonal treat.</p>
-                <ul style="color:var(--muted);margin-top:10px">
-                    <li>Single origin beans</li>
-                    <li>Slow drip infusion</li>
-                    <li>Topped with cream and strawberry sauce</li>
-                </ul>
-            </div>
+          <h1 id="details-name">Strawberry Coffee</h1>
+          <p id="details-text">Freshly brewed strawberry infused coffee.</p>
+          <div class="price" id="details-price">$39.99</div>
+          <div>
+            <button id="moreBtn">More Details</button>
+            <button class="cancel" id="cancelBtn" style="display:none">Close</button>
+            <button id="addCartBtn">Add to Cart</button>
+            <button id="paymentBtn">Payment</button>
+          </div>
 
-            <!-- Cart -->
-            <div class="cart-container">
-                <h3>Cart</h3>
-                <ul class="cart-items" id="cartItems"></ul>
-                <div>Total: <span id="cartTotal">$0.00</span></div>
+          <div class="details-panel" id="detailsPanel">
+            <p style="color:var(--muted)">This specialty cup blends fruity notes with smooth espresso for a refreshing seasonal treat.</p>
+            <ul style="color:var(--muted);margin-top:10px">
+              <li>Single origin beans</li>
+              <li>Slow drip infusion</li>
+              <li>Topped with cream and strawberry sauce</li>
+            </ul>
+          </div>
 
-                <!-- Payment Section -->
-                <div class="payment-container">
-                    <h3 style="color:var(--accent-2);margin-bottom:12px">Payment Method</h3>
-                    <form id="paymentForm">
-                        <label><input type="radio" name="payment" value="bkash" required> Bkash</label>
-                        <label><input type="radio" name="payment" value="nagad" required> Nagad</label>
-                        <label><input type="radio" name="payment" value="card" required> Card</label>
+          <div class="cart-container">
+            <h3>Cart</h3>
+            <ul class="cart-items" id="cartItems"></ul>
+            <div>Total: <span id="cartTotal">$0.00</span></div>
+          </div>
 
-                        <!-- Dynamic Interfaces -->
-                        <div id="bkashInterface" class="payment-interface bkash-interface">
-                            <div style="display:flex;align-items:center;gap:10px;flex-direction:column;">
-                                <img src="images/bkash.png" alt="Bkash" style="width:60px;margin-bottom:10px">
-                                <label>Bkash Number</label>
-                                <input type="text" placeholder="01XXXXXXXXX" required>
-                                <button type="button" onclick="processBkash()" style="margin-top:12px;padding:10px 16px;border:none;border-radius:8px;background:#ff69b4;color:#000;font-weight:700;cursor:pointer;">Pay with Bkash</button>
-                            </div>
-                        </div>
-
-                        <div id="nagadInterface" class="payment-interface nagad-interface">
-                            <div style="display:flex;align-items:center;gap:10px;flex-direction:column;">
-                                <img src="images/nagad.jpg" alt="Nagad" style="width:60px;margin-bottom:10px">
-                                <label>Nagad Number</label>
-                                <input type="text" placeholder="01XXXXXXXXX" required>
-                                <button type="button" onclick="processNagad()" style="margin-top:12px;padding:10px 16px;border:none;border-radius:8px;background:#ffa500;color:#000;font-weight:700;cursor:pointer;">Pay with Nagad</button>
-                            </div>
-                        </div>
-
-                        <div id="cardInterface" class="payment-interface card-interface">
-                            <div style="display:flex;flex-direction:column;gap:8px;">
-                                <label>Card Number</label>
-                                <input type="text" placeholder="XXXX XXXX XXXX XXXX" required style="color:#000">
-                                <label>Card Holder Name</label>
-                                <input type="text" placeholder="Full Name" required style="color:#000">
-                                <div style="display:flex;gap:8px;">
-                                    <div style="flex:1">
-                                        <label>Expiry</label>
-                                        <input type="text" placeholder="MM/YY" required style="color:#000">
-                                    </div>
-                                    <div style="flex:1">
-                                        <label>CVV</label>
-                                        <input type="text" placeholder="XXX" required style="color:#000">
-                                    </div>
-                                </div>
-                                <button type="submit" style="margin-top:12px;padding:10px 16px;border:none;border-radius:8px;background:#fff;color:#000;font-weight:700;cursor:pointer;">Pay with Card</button>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-
-            <!-- Reviews -->
-            <div class="review-container">
-                <h3>Reviews</h3>
-                <ul class="review-list" id="reviewList"></ul>
-                <form id="reviewForm">
-                    <input type="text" id="reviewName" placeholder="Your Name" required>
-                    <textarea id="reviewText" placeholder="Your Review" required></textarea>
-                    <button type="submit">Add Review</button>
-                </form>
-            </div>
+          <div class="review-container">
+            <h3>Reviews</h3>
+            <ul class="review-list" id="reviewList"></ul>
+            <form id="reviewForm">
+              <input type="text" id="reviewName" placeholder="Your Name" required>
+              <textarea id="reviewText" placeholder="Your Review" required></textarea>
+              <button type="submit">Add Review</button>
+            </form>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- Right panel -->
-    <div class="right">
+      <!-- Right panel -->
+      <div class="right" style="float:right;">
         <h2 style="color:var(--accent);margin-bottom:12px">Our Selection</h2>
         <div id="searchFilter">
-            <input type="text" id="searchInput" placeholder="Search coffee...">
-            <select id="filterSelect">
-                <option value="all">All</option>
-                <option value="iced">Iced</option>
-                <option value="hot">Hot</option>
-            </select>
+          <input type="text" id="searchInput" placeholder="Search coffee...">
+          <select id="filterSelect">
+            <option value="all">All</option>
+            <option value="iced">Iced</option>
+            <option value="hot">Hot</option>
+          </select>
         </div>
+
         <div class="product-list" id="coffeeList">
-            <h3 data-coffee="strawberry" data-type="hot" class="active">Strawberry Coffee</h3>
-            <h3 data-coffee="green" data-type="hot">Green Tea Coffee</h3>
-            <h3 data-coffee="choco" data-type="hot">Chocolate Coffee</h3>
-            <h3 data-coffee="caramel_sauce" data-type="hot">Caramel Sauce & Vanilla Cream</h3>
-            <h3 data-coffee="mint_cookie" data-type="iced">Iced Mint Cookie Latte</h3>
-            <h3 data-coffee="caramel_mocha" data-type="iced">Iced Caramel Mocha</h3>
+          <h3 data-coffee="strawberry" data-type="hot" class="active">Strawberry Coffee</h3>
+          <h3 data-coffee="green" data-type="hot">Green Tea Coffee</h3>
+          <h3 data-coffee="choco" data-type="hot">Chocolate Coffee</h3>
+          <h3 data-coffee="caramel_sauce" data-type="hot">Caramel Sauce & Vanilla Cream</h3>
+          <h3 data-coffee="mint_cookie" data-type="iced">Iced Mint Cookie Latte</h3>
+          <h3 data-coffee="caramel_mocha" data-type="iced">Iced Caramel Mocha</h3>
         </div>
+      </div>
+
+    </div> <!-- end coffeeContent -->
+
+    <!-- Payment section (hidden by default). When paymentBtn clicked, coffeeContent hides and this shows -->
+    <div class="payment-container" id="paymentSection">
+      <h3 style="color:var(--accent-2);margin-bottom:12px">Payment Method</h3>
+
+      <form id="paymentForm">
+        <label><input type="radio" name="payment" value="bkash" required> Bkash</label>
+        <label><input type="radio" name="payment" value="nagad" required> Nagad</label>
+        <label><input type="radio" name="payment" value="card" required> Card</label>
+
+        <div id="bkashInterface" class="payment-interface bkash-interface">
+          <div style="display:flex;align-items:center;gap:10px;flex-direction:column;">
+            <img src="images/bkash.png" alt="Bkash" style="width:60px;margin-bottom:10px">
+            <label>Bkash Number</label>
+            <input type="text" placeholder="01XXXXXXXXX" required>
+            <button type="button" id="bkashPayBtn">Pay with Bkash</button>
+          </div>
+        </div>
+
+        <div id="nagadInterface" class="payment-interface nagad-interface">
+          <div style="display:flex;align-items:center;gap:10px;flex-direction:column;">
+            <img src="images/nagad.jpg" alt="Nagad" style="width:60px;margin-bottom:10px">
+            <label>Nagad Number</label>
+            <input type="text" placeholder="01XXXXXXXXX" required>
+            <button type="button" id="nagadPayBtn">Pay with Nagad</button>
+          </div>
+        </div>
+
+        <div id="cardInterface" class="payment-interface card-interface">
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <label>Card Number</label>
+            <input type="text" placeholder="XXXX XXXX XXXX XXXX" required style="color:#000">
+            <label>Card Holder Name</label>
+            <input type="text" placeholder="Full Name" required style="color:#000">
+            <div style="display:flex;gap:8px;">
+              <div style="flex:1">
+                <label>Expiry</label>
+                <input type="text" placeholder="MM/YY" required style="color:#000">
+              </div>
+              <div style="flex:1">
+                <label>CVV</label>
+                <input type="text" placeholder="XXX" required style="color:#000">
+              </div>
+            </div>
+            <button type="submit" id="cardPayBtn">Pay with Card</button>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <button type="button" id="goCartBtn" style="padding:10px 16px;border-radius:8px;border:none;background:#555;color:#fff;cursor:pointer;">Go to Cart</button>
+        </div>
+      </form>
     </div>
-</div>
+
+  </div>
 </main>
 
 <!-- LOGIN POPUPS -->
 <div class="popup-bg" id="loginPopup">
-    <div class="popup-box">
-        <h3>Login</h3>
-        <input type="email" placeholder="Email">
-        <input type="password" placeholder="Password">
-        <button style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Login</button>
-        <div style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
-    </div>
+  <div class="popup-box">
+    <h3>Login</h3>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Login</button>
+    <div style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
+  </div>
 </div>
 <div class="popup-bg" id="signupPopup">
-    <div class="popup-box">
-        <h3>Sign Up</h3>
-        <input type="text" placeholder="Full Name">
-        <input type="email" placeholder="Email">
-        <input type="password" placeholder="Password">
-        <button style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Sign Up</button>
-        <div style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
-    </div>
+  <div class="popup-box">
+    <h3>Sign Up</h3>
+    <input type="text" placeholder="Full Name">
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Sign Up</button>
+    <div style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
+  </div>
 </div>
 
 <script>
-// Coffee Data
-const coffees = {
+document.addEventListener('DOMContentLoaded', () => {
+  // Coffee Data
+  const coffees = {
     strawberry:{name:'Strawberry Coffee',type:'hot',img:'images/cup2-removebg-preview.png',text:'Freshly brewed strawberry infused coffee.',price:'39.99'},
     green:{name:'Green Tea Coffee',type:'hot',img:'images/cup3-removebg-preview.png',text:'Smooth matcha green tea latte.',price:'29.99'},
     choco:{name:'Chocolate Coffee',type:'hot',img:'images/cup4-removebg-preview.png',text:'Velvety cocoa blended coffee.',price:'34.99'},
     caramel_sauce:{name:'Caramel Sauce & Vanilla Cream',type:'hot',img:'images/caramel-sauce-and-vanilla-cream .png',text:'Caramel sauce with vanilla cream.',price:'42.99'},
     mint_cookie:{name:'Iced Mint Cookie Latte',type:'iced',img:'images/icedmintcookielatte.png',text:'Refreshing iced mint cookie latte.',price:'36.99'},
     caramel_mocha:{name:'Iced Caramel Mocha',type:'iced',img:'images/iced-caramel-mocha.png',text:'Chilled caramel mocha.',price:'44.99'}
-};
+  };
 
-// Elements
-const coffeeList = document.querySelectorAll('#coffeeList h3');
-const coffeeImg = document.getElementById('coffee-img');
-const detailsPanel = document.getElementById('detailsPanel');
-const detailsName = document.getElementById('details-name');
-const detailsText = document.getElementById('details-text');
-const detailsPrice = document.getElementById('details-price');
-const moreBtn = document.getElementById('moreBtn');
-const cancelBtn = document.getElementById('cancelBtn');
-const addCartBtn = document.getElementById('addCartBtn');
-const cartItemsEl = document.getElementById('cartItems');
-const cartTotalEl = document.getElementById('cartTotal');
-let cart = [];
+  // Elements
+  const coffeeList = document.querySelectorAll('#coffeeList h3');
+  const coffeeImg = document.getElementById('coffee-img');
+  const detailsPanel = document.getElementById('detailsPanel');
+  const detailsName = document.getElementById('details-name');
+  const detailsText = document.getElementById('details-text');
+  const detailsPrice = document.getElementById('details-price');
+  const moreBtn = document.getElementById('moreBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const addCartBtn = document.getElementById('addCartBtn');
+  const paymentBtn = document.getElementById('paymentBtn');
+  const coffeeContent = document.getElementById('coffeeContent');
+  const paymentSection = document.getElementById('paymentSection');
+  const goCartBtn = document.getElementById('goCartBtn');
 
-// Payment Interfaces
-const paymentForm = document.getElementById('paymentForm');
-const bkashInterface = document.getElementById('bkashInterface');
-const nagadInterface = document.getElementById('nagadInterface');
-const cardInterface = document.getElementById('cardInterface');
+  const cartItemsEl = document.getElementById('cartItems');
+  const cartTotalEl = document.getElementById('cartTotal');
 
-paymentForm.payment.forEach(radio=>{
-    radio.addEventListener('change', ()=>{
-        bkashInterface.style.display='none';
-        nagadInterface.style.display='none';
-        cardInterface.style.display='none';
-        if(radio.value==='bkash') bkashInterface.style.display='block';
-        if(radio.value==='nagad') nagadInterface.style.display='block';
-        if(radio.value==='card') cardInterface.style.display='block';
+  let cart = [];
+
+  // Reviews
+  const reviewList = document.getElementById('reviewList');
+  const reviewForm = document.getElementById('reviewForm');
+  const reviewName = document.getElementById('reviewName');
+  const reviewText = document.getElementById('reviewText');
+  let reviews = [];
+
+  // Payment interfaces
+  const paymentForm = document.getElementById('paymentForm');
+  const bkashInterface = document.getElementById('bkashInterface');
+  const nagadInterface = document.getElementById('nagadInterface');
+  const cardInterface = document.getElementById('cardInterface');
+  const bkashPayBtn = document.getElementById('bkashPayBtn');
+  const nagadPayBtn = document.getElementById('nagadPayBtn');
+
+  // Initialize coffee list click behavior
+  coffeeList.forEach(item => {
+    item.addEventListener('click', () => {
+      coffeeList.forEach(c => c.classList.remove('active'));
+      item.classList.add('active');
+      const key = item.dataset.coffee;
+      const c = coffees[key];
+      coffeeImg.src = c.img;
+      detailsName.textContent = c.name;
+      detailsText.textContent = c.text;
+      detailsPrice.textContent = '$' + c.price;
     });
-});
+  });
 
-paymentForm.addEventListener('submit', e=>{
-    e.preventDefault();
-    const method = paymentForm.payment.value;
-    if(method==='card'){
-        const inputs = cardInterface.querySelectorAll('input');
-        for(let input of inputs){ if(!input.value.trim()){ alert("Fill all card fields!"); return; } }
-        const total = cart.reduce((sum,i)=>sum+parseFloat(i.price),0).toFixed(2);
-        alert(`Payment of $${total} via Card successful!\nCard Holder: ${inputs[1].value}`);
-        cart=[]; renderCart(); paymentForm.reset();
-        cardInterface.style.display='none';
-    }
-});
+  // Details toggle
+  moreBtn.addEventListener('click', () => {
+    detailsPanel.classList.add('active');
+    moreBtn.style.display = 'none';
+    cancelBtn.style.display = 'inline-block';
+  });
+  cancelBtn.addEventListener('click', () => {
+    detailsPanel.classList.remove('active');
+    moreBtn.style.display = 'inline-block';
+    cancelBtn.style.display = 'none';
+  });
 
-// Cart
-addCartBtn.addEventListener('click', ()=>{
-    const currentCoffee = document.querySelector('#coffeeList h3.active').dataset.coffee;
-    cart.push({...coffees[currentCoffee]});
+  // Cart functions
+  function renderCart(){
+    cartItemsEl.innerHTML = '';
+    let total = 0;
+    cart.forEach((item, i) => {
+      total += parseFloat(item.price);
+      const li = document.createElement('li');
+      li.innerHTML = `${item.name} - $${item.price} <button class="remove-btn" onclick="removeCartItem(${i})">Remove</button>`;
+      cartItemsEl.appendChild(li);
+    });
+    cartTotalEl.textContent = '$' + total.toFixed(2);
+  }
+  // expose remove function globally for inline onclick to work
+  window.removeCartItem = function(i){
+    cart.splice(i,1);
     renderCart();
-});
-function renderCart(){
-    cartItemsEl.innerHTML='';
-    let total=0;
-    cart.forEach((item,i)=>{
-        total += parseFloat(item.price);
-        const li=document.createElement('li');
-        li.innerHTML = `${item.name} - $${item.price} <button class="remove-btn" onclick="removeCartItem(${i})">Remove</button>`;
-        cartItemsEl.appendChild(li);
+  };
+
+  addCartBtn.addEventListener('click', () => {
+    const currentKey = document.querySelector('#coffeeList h3.active').dataset.coffee;
+    cart.push({...coffees[currentKey]});
+    renderCart();
+  });
+
+  // Reviews
+  reviewForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = reviewName.value.trim();
+    const text = reviewText.value.trim();
+    if(name && text){
+      reviews.push({name, text});
+      renderReviews();
+      reviewForm.reset();
+    }
+  });
+  function renderReviews(){
+    reviewList.innerHTML = '';
+    reviews.forEach(r => {
+      const li = document.createElement('li');
+      li.textContent = `${r.name}: ${r.text}`;
+      reviewList.appendChild(li);
     });
-    cartTotalEl.textContent = '$'+total.toFixed(2);
-}
-function removeCartItem(i){ cart.splice(i,1); renderCart(); }
+  }
 
-// Coffee Selection
-coffeeList.forEach(item=>{
-    item.addEventListener('click', ()=>{
-        coffeeList.forEach(c=>c.classList.remove('active'));
-        item.classList.add('active');
-        const c=coffees[item.dataset.coffee];
-        coffeeImg.src=c.img; detailsName.textContent=c.name;
-        detailsText.textContent=c.text; detailsPrice.textContent='$'+c.price;
+  // Payment visibility logic:
+  // When payment button clicked -> hide coffeeContent (left + right) and show only paymentSection
+  paymentBtn.addEventListener('click', () => {
+    // hide coffee content (both left + right)
+    coffeeContent.style.display = 'none';
+    // show payment section and reset payment UI
+    paymentSection.style.display = 'block';
+    bkashInterface.style.display = 'none';
+    nagadInterface.style.display = 'none';
+    cardInterface.style.display = 'none';
+    // uncheck radios
+    paymentForm.querySelectorAll('input[name="payment"]').forEach(r => r.checked = false);
+  });
+
+  // Go back to cart view
+  goCartBtn.addEventListener('click', () => {
+    paymentSection.style.display = 'none';
+    coffeeContent.style.display = 'block';
+  });
+
+  // Payment method radio change
+  paymentForm.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      bkashInterface.style.display = 'none';
+      nagadInterface.style.display = 'none';
+      cardInterface.style.display = 'none';
+      if(radio.value === 'bkash') bkashInterface.style.display = 'block';
+      if(radio.value === 'nagad') nagadInterface.style.display = 'block';
+      if(radio.value === 'card') cardInterface.style.display = 'block';
     });
-});
+  });
 
-// Toggle details panel
-moreBtn.addEventListener('click', ()=>{detailsPanel.classList.add('active');moreBtn.style.display='none';cancelBtn.style.display='inline-block';});
-cancelBtn.addEventListener('click', ()=>{detailsPanel.classList.remove('active');moreBtn.style.display='inline-block';cancelBtn.style.display='none';});
+  // Card payment submit
+  paymentForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const sel = paymentForm.querySelector('input[name="payment"]:checked');
+    if(!sel) { alert('Select a payment method'); return; }
+    if(sel.value === 'card'){
+      const inputs = cardInterface.querySelectorAll('input');
+      for(let input of inputs){
+        if(!input.value.trim()){ alert('Fill all card fields!'); return; }
+      }
+      const total = cart.reduce((s,i)=>s+parseFloat(i.price),0).toFixed(2);
+      alert(`Payment of $${total} via Card successful!\nCard Holder: ${inputs[1].value}`);
+      cart = []; renderCart();
+      paymentForm.reset();
+      cardInterface.style.display = 'none';
+      paymentSection.style.display = 'none';
+      coffeeContent.style.display = 'block';
+    }
+  });
 
-// Search & Filter
-const searchInput = document.getElementById('searchInput');
-const filterSelect = document.getElementById('filterSelect');
-searchInput.addEventListener('input', filterCoffees);
-filterSelect.addEventListener('change', filterCoffees);
-function filterCoffees(){
+  // Bkash / Nagad handlers
+  bkashPayBtn.addEventListener('click', () => {
+    const input = bkashInterface.querySelector('input').value.trim();
+    if(!input){ alert('Enter your Bkash number!'); return; }
+    const total = cart.reduce((s,i)=>s+parseFloat(i.price),0).toFixed(2);
+    alert(`Payment of $${total} via Bkash successful!\nNumber: ${input}`);
+    cart = []; renderCart();
+    bkashInterface.querySelector('input').value = '';
+    bkashInterface.style.display = 'none';
+    paymentSection.style.display = 'none';
+    coffeeContent.style.display = 'block';
+  });
+
+  nagadPayBtn.addEventListener('click', () => {
+    const input = nagadInterface.querySelector('input').value.trim();
+    if(!input){ alert('Enter your Nagad number!'); return; }
+    const total = cart.reduce((s,i)=>s+parseFloat(i.price),0).toFixed(2);
+    alert(`Payment of $${total} via Nagad successful!\nNumber: ${input}`);
+    cart = []; renderCart();
+    nagadInterface.querySelector('input').value = '';
+    nagadInterface.style.display = 'none';
+    paymentSection.style.display = 'none';
+    coffeeContent.style.display = 'block';
+  });
+
+  // Mobile menu (if used)
+  const menuBtn = document.getElementById('menuBtn');
+  const nav = document.getElementById('nav');
+  if(menuBtn){ menuBtn.addEventListener('click', ()=> nav.classList.toggle('show')); }
+
+  // Login/Signup popups
+  const loginBtn = document.getElementById('loginBtn');
+  const signupBtn = document.getElementById('signupBtn');
+  const loginPopup = document.getElementById('loginPopup');
+  const signupPopup = document.getElementById('signupPopup');
+  if(loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); loginPopup.style.display = 'flex'; });
+  if(signupBtn) signupBtn.addEventListener('click', (e) => { e.preventDefault(); signupPopup.style.display = 'flex'; });
+  window.closePopups = function(){ if(loginPopup) loginPopup.style.display='none'; if(signupPopup) signupPopup.style.display='none'; };
+
+  // Search & Filter
+  const searchInput = document.getElementById('searchInput');
+  const filterSelect = document.getElementById('filterSelect');
+  function filterCoffees(){
     const search = searchInput.value.toLowerCase();
     const filter = filterSelect.value;
     coffeeList.forEach(item=>{
-        const c = coffees[item.dataset.coffee];
-        let show = c.name.toLowerCase().includes(search);
-        if(filter!=='all') show = show && c.type===filter;
-        item.style.display = show?'block':'none';
+      const c = coffees[item.dataset.coffee];
+      let show = c.name.toLowerCase().includes(search);
+      if(filter !== 'all') show = show && c.type === filter;
+      item.style.display = show ? 'block' : 'none';
     });
-}
+  }
+  searchInput.addEventListener('input', filterCoffees);
+  filterSelect.addEventListener('change', filterCoffees);
 
-// Reviews
-const reviewList = document.getElementById('reviewList');
-const reviewForm = document.getElementById('reviewForm');
-const reviewName = document.getElementById('reviewName');
-const reviewText = document.getElementById('reviewText');
-let reviews = [];
-reviewForm.addEventListener('submit', e=>{
-    e.preventDefault();
-    const name=reviewName.value.trim(), text=reviewText.value.trim();
-    if(name && text){reviews.push({name,text});renderReviews(); reviewForm.reset();}
+  // initial render
+  renderCart();
 });
-function renderReviews(){
-    reviewList.innerHTML='';
-    reviews.forEach(r=>{
-        const li=document.createElement('li');
-        li.textContent = `${r.name}: ${r.text}`;
-        reviewList.appendChild(li);
-    });
-}
-
-// Mobile menu
-const menuBtn = document.getElementById('menuBtn');
-const nav = document.getElementById('nav');
-if(menuBtn){menuBtn.addEventListener('click', ()=>{nav.classList.toggle('show');});}
-
-// login/signup
-const loginBtn = document.getElementById('loginBtn');
-const signupBtn = document.getElementById('signupBtn');
-const loginPopup = document.getElementById('loginPopup');
-const signupPopup = document.getElementById('signupPopup');
-if(loginBtn) loginBtn.addEventListener('click', (e)=>{ e.preventDefault(); loginPopup.style.display='flex'; })
-if(signupBtn) signupBtn.addEventListener('click', (e)=>{ e.preventDefault(); signupPopup.style.display='flex'; })
-function closePopups(){ if(loginPopup) loginPopup.style.display='none'; if(signupPopup) signupPopup.style.display='none'; }
-
-// Bkash & Nagad payment
-function processBkash(){
-    const input = bkashInterface.querySelector('input').value.trim();
-    if(!input){ alert("Enter your Bkash number!"); return; }
-    const total = cart.reduce((sum,i)=>sum+parseFloat(i.price),0).toFixed(2);
-    alert(`Payment of $${total} via Bkash successful!\nNumber: ${input}`);
-    cart=[]; renderCart(); bkashInterface.style.display='none';
-}
-function processNagad(){
-    const input = nagadInterface.querySelector('input').value.trim();
-    if(!input){ alert("Enter your Nagad number!"); return; }
-    const total = cart.reduce((sum,i)=>sum+parseFloat(i.price),0).toFixed(2);
-    alert(`Payment of $${total} via Nagad successful!\nNumber: ${input}`);
-    cart=[]; renderCart(); nagadInterface.style.display='none';
-}
 </script>
 
 </body>
