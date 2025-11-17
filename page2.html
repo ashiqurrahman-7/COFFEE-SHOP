@@ -6,10 +6,17 @@
 <title>Coffee Menu</title>
 <style>
 :root{
-  --bg:#0f0f0f;--panel:#141414;--muted:#ccc;--accent:#d4a373;--accent-2:#ffb347;--maxw:1100px;
+    --bg:#0f0f0f;
+    --panel:#141414;
+    --muted:#ccc;
+    --accent:#d4a373;
+    --accent-2:#ffb347;
+    --maxw:1100px;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
+
+/* Header */
 .header-wrap{position:fixed;inset:0 0 auto 0;height:72px;background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.15));backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.03);z-index:1200}
 .header{max-width:var(--maxw);margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
 .logo{font-size:20px;color:var(--accent);font-weight:700}
@@ -27,6 +34,7 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
 /* product image & details */
 .product-img{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));padding:18px;border-radius:14px;display:flex;justify-content:center;align-items:center}
 .product-img img{width:195px;max-width:100%;border-radius:12px;display:block;transition:transform .4s}
+
 .info{margin-top:14px}
 .info h1{font-size:26px;color:var(--accent);margin-bottom:8px}
 .info p{color:var(--muted);margin-bottom:8px}
@@ -53,20 +61,33 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
 .cart-items li:last-child{border-bottom:none}
 .remove-btn{padding:4px 8px;background:#ff4d4d;border:none;border-radius:6px;color:#fff;cursor:pointer}
 
+/* search/filter */
+#searchFilter{margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap}
+#searchInput{flex:1;padding:8px;border-radius:8px;border:none;background:#1a1a1a;color:#fff}
+#filterSelect{padding:8px;border-radius:8px;border:none;background:#1a1a1a;color:#fff}
+
+/* reviews */
+.review-container{margin-top:20px;background:#1a1a1a;padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.3)}
+.review-container h3{color:var(--accent-2);margin-bottom:12px}
+.review-list{list-style:none;padding-left:0;max-height:200px;overflow-y:auto;margin-bottom:12px}
+.review-list li{padding:8px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.review-list li:last-child{border-bottom:none}
+#reviewForm{display:flex;flex-direction:column;gap:8px}
+#reviewForm input, #reviewForm textarea{padding:8px;border-radius:6px;border:none;background:#2b2b2b;color:#fff}
+#reviewForm button{padding:10px;background:var(--accent);border:none;color:#000;border-radius:8px;font-weight:700;cursor:pointer}
+
 /* responsive */
 @media (max-width:1000px){
-  .columns{flex-direction:column-reverse}
-  .left{width:100%}
-  .right{width:100%}
-  .product-img img{width:320px}
+.columns{flex-direction:column-reverse}
+.left{width:100%}
+.right{width:100%}
+.product-img img{width:320px}
 }
 @media (max-width:600px){
-  .product-img img{width:195px}
-  .product-list h3{font-size:15px;padding:8px}
-  .info h1{font-size:20px}
+.product-img img{width:195px}
+.product-list h3{font-size:15px;padding:8px}
+.info h1{font-size:20px}
 }
-
-/* popup styling re-used */
 .popup-bg{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:2200}
 .popup-box{width:320px;background:#1a1a1a;padding:20px;border-radius:10px;animation:pop .32s ease both}
 @keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
@@ -76,100 +97,120 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
 
 <!-- Header -->
 <div class="header-wrap">
-  <header class="header">
-    <div class="logo">☕ Coffee Shop</div>
-    <nav class="nav" id="nav">
-      <a href="index.html#home">Home</a>
-      <a href="index.html#about">About</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="#" id="loginBtn">Login</a>
-      <a href="#" id="signupBtn">Sign Up</a>
-    </nav>
-    <button class="menu-btn" id="menuBtn">☰</button>
-  </header>
+<header class="header">
+<div class="logo">☕ Coffee Shop</div>
+<nav class="nav" id="nav">
+<a href="index.html#home">Home</a>
+<a href="index.html#about">About</a>
+<a href="index.html#contact">Contact</a>
+<a href="#" id="loginBtn">Login</a>
+<a href="#" id="signupBtn">Sign Up</a>
+</nav>
+<button class="menu-btn" id="menuBtn">☰</button>
+</header>
 </div>
 
 <main class="main">
-  <div class="container columns">
+<div class="container columns">
+    <!-- Left panel -->
     <div class="left">
-      <div class="product-img">
-        <img id="coffee-img" src="images/cup2-removebg-preview.png" alt="coffee image">
-      </div>
-
-      <div class="info">
-        <h1 id="details-name">Strawberry Coffee</h1>
-        <p id="details-text">Freshly brewed strawberry infused coffee.</p>
-        <div class="price" id="details-price">$39.99</div>
-
-        <div>
-          <button id="moreBtn">More Details</button>
-          <button class="cancel" id="cancelBtn" style="display:none">Close</button>
-          <button id="addCartBtn">Add to Cart</button>
+        <div class="product-img">
+            <img id="coffee-img" src="images/cup2-removebg-preview.png" alt="coffee image">
         </div>
+        <div class="info">
+            <h1 id="details-name">Strawberry Coffee</h1>
+            <p id="details-text">Freshly brewed strawberry infused coffee.</p>
+            <div class="price" id="details-price">$39.99</div>
+            <div>
+                <button id="moreBtn">More Details</button>
+                <button class="cancel" id="cancelBtn" style="display:none">Close</button>
+                <button id="addCartBtn">Add to Cart</button>
+            </div>
+            <div class="details-panel" id="detailsPanel">
+                <p style="color:var(--muted)">This specialty cup blends fruity notes with smooth espresso for a refreshing seasonal treat.</p>
+                <ul style="color:var(--muted);margin-top:10px">
+                    <li>Single origin beans</li>
+                    <li>Slow drip infusion</li>
+                    <li>Topped with cream and strawberry sauce</li>
+                </ul>
+            </div>
 
-        <div class="details-panel" id="detailsPanel">
-          <p style="color:var(--muted)">This specialty cup blends fruity notes with smooth espresso for a refreshing seasonal treat. Perfect for afternoon pick-me-up or dessert pairing.</p>
-          <ul style="color:var(--muted);margin-top:10px">
-            <li>Single origin beans</li>
-            <li>Slow drip infusion</li>
-            <li>Topped with cream and strawberry sauce</li>
-          </ul>
-        </div>
+            <!-- Cart -->
+            <div class="cart-container">
+                <h3>Cart</h3>
+                <ul class="cart-items" id="cartItems"></ul>
+                <div>Total: <span id="cartTotal">$0.00</span></div>
+            </div>
 
-        <div class="cart-container">
-          <h3>Cart</h3>
-          <ul class="cart-items" id="cartItems"></ul>
-          <div>Total: <span id="cartTotal">$0.00</span></div>
+            <!-- Reviews -->
+            <div class="review-container">
+                <h3>Reviews</h3>
+                <ul class="review-list" id="reviewList"></ul>
+                <form id="reviewForm">
+                    <input type="text" id="reviewName" placeholder="Your Name" required>
+                    <textarea id="reviewText" placeholder="Your Review" required></textarea>
+                    <button type="submit">Add Review</button>
+                </form>
+            </div>
         </div>
-      </div>
     </div>
 
+    <!-- Right panel -->
     <div class="right">
-      <h2 style="color:var(--accent);margin-bottom:12px">Our Selection</h2>
-      <div class="product-list" id="coffeeList">
-        <h3 data-coffee="strawberry" class="active">Strawberry Coffee</h3>
-        <h3 data-coffee="green">Green Tea Coffee</h3>
-        <h3 data-coffee="choco">Chocolate Coffee</h3>
-        <h3 data-coffee="caramel_sauce">Caramel Sauce & Vanilla Cream</h3>
-        <h3 data-coffee="mint_cookie">Iced Mint Cookie Latte</h3>
-        <h3 data-coffee="caramel_mocha">Iced Caramel Mocha</h3>
-      </div>
+        <h2 style="color:var(--accent);margin-bottom:12px">Our Selection</h2>
+        <div id="searchFilter">
+            <input type="text" id="searchInput" placeholder="Search coffee...">
+            <select id="filterSelect">
+                <option value="all">All</option>
+                <option value="iced">Iced</option>
+                <option value="hot">Hot</option>
+            </select>
+        </div>
+        <div class="product-list" id="coffeeList">
+            <h3 data-coffee="strawberry" data-type="hot" class="active">Strawberry Coffee</h3>
+            <h3 data-coffee="green" data-type="hot">Green Tea Coffee</h3>
+            <h3 data-coffee="choco" data-type="hot">Chocolate Coffee</h3>
+            <h3 data-coffee="caramel_sauce" data-type="hot">Caramel Sauce & Vanilla Cream</h3>
+            <h3 data-coffee="mint_cookie" data-type="iced">Iced Mint Cookie Latte</h3>
+            <h3 data-coffee="caramel_mocha" data-type="iced">Iced Caramel Mocha</h3>
+        </div>
     </div>
-  </div>
+</div>
 </main>
 
 <!-- LOGIN POPUPS -->
 <div class="popup-bg" id="loginPopup">
-  <div class="popup-box">
-    <h3>Login</h3>
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Password">
-    <button style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Login</button>
-    <div style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
-  </div>
+    <div class="popup-box">
+        <h3>Login</h3>
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Password">
+        <button style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Login</button>
+        <div style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
+    </div>
 </div>
-
 <div class="popup-bg" id="signupPopup">
-  <div class="popup-box">
-    <h3>Sign Up</h3>
-    <input type="text" placeholder="Full Name">
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Password">
-    <button style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Sign Up</button>
-    <div style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
-  </div>
+    <div class="popup-box">
+        <h3>Sign Up</h3>
+        <input type="text" placeholder="Full Name">
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Password">
+        <button style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Sign Up</button>
+        <div style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
+    </div>
 </div>
 
 <script>
+// Coffee Data
 const coffees = {
-  strawberry:{name:'Strawberry Coffee',color:'orange',img:'images/cup2-removebg-preview.png',text:'Freshly brewed strawberry infused coffee.',price:'39.99'},
-  green:{name:'Green Tea Coffee',color:'#8acb88',img:'images/cup3-removebg-preview.png',text:'Smooth matcha green tea latte.',price:'29.99'},
-  choco:{name:'Chocolate Coffee',color:'#d4a373',img:'images/cup4-removebg-preview.png',text:'Velvety cocoa blended coffee.',price:'34.99'},
-  caramel_sauce:{name:'Caramel Sauce & Vanilla Cream',color:'#c79248',img:'images/caramel-sauce-and-vanilla-cream.png',text:'Caramel sauce with vanilla cream.',price:'42.99'},
-  mint_cookie:{name:'Iced Mint Cookie Latte',color:'#7fffd4',img:'images/icedmintcookielatte.png',text:'Refreshing iced mint cookie latte.',price:'36.99'},
-  caramel_mocha:{name:'Iced Caramel Mocha',color:'#b5651d',img:'images/iced-caramel-mocha.png',text:'Chilled caramel mocha.',price:'44.99'}
+    strawberry:{name:'Strawberry Coffee',type:'hot',img:'images/cup2-removebg-preview.png',text:'Freshly brewed strawberry infused coffee.',price:'39.99'},
+    green:{name:'Green Tea Coffee',type:'hot',img:'images/cup3-removebg-preview.png',text:'Smooth matcha green tea latte.',price:'29.99'},
+    choco:{name:'Chocolate Coffee',type:'hot',img:'images/cup4-removebg-preview.png',text:'Velvety cocoa blended coffee.',price:'34.99'},
+    caramel_sauce:{name:'Caramel Sauce & Vanilla Cream',type:'hot',img:'images/caramel-sauce-and-vanilla-cream.png',text:'Caramel sauce with vanilla cream.',price:'42.99'},
+    mint_cookie:{name:'Iced Mint Cookie Latte',type:'iced',img:'images/icedmintcookielatte.png',text:'Refreshing iced mint cookie latte.',price:'36.99'},
+    caramel_mocha:{name:'Iced Caramel Mocha',type:'iced',img:'images/iced-caramel-mocha.png',text:'Chilled caramel mocha.',price:'44.99'}
 };
 
+// Elements
 const coffeeList = document.querySelectorAll('#coffeeList h3');
 const coffeeImg = document.getElementById('coffee-img');
 const detailsPanel = document.getElementById('detailsPanel');
@@ -181,83 +222,121 @@ const cancelBtn = document.getElementById('cancelBtn');
 const addCartBtn = document.getElementById('addCartBtn');
 const cartItemsEl = document.getElementById('cartItems');
 const cartTotalEl = document.getElementById('cartTotal');
-
 let cart = [];
 
-// coffee selection
+// Reviews
+const reviewList = document.getElementById('reviewList');
+const reviewForm = document.getElementById('reviewForm');
+const reviewName = document.getElementById('reviewName');
+const reviewText = document.getElementById('reviewText');
+let reviews = [];
+
+// Coffee selection
 coffeeList.forEach(item=>{
-  item.addEventListener('click', ()=>{
-    coffeeList.forEach(c=>c.classList.remove('active'));
-    item.classList.add('active');
-    const key = item.dataset.coffee;
-    const c = coffees[key];
-    if(!c) return;
-    coffeeImg.src = c.img;
-    detailsName.textContent = c.name;
-    detailsText.textContent = c.text;
-    detailsPrice.textContent = '$' + c.price;
-    detailsName.style.color = c.color;
-    moreBtn.style.background = c.color;
-  });
+    item.addEventListener('click', ()=>{
+        coffeeList.forEach(c=>c.classList.remove('active'));
+        item.classList.add('active');
+        const key = item.dataset.coffee;
+        const c = coffees[key];
+        if(!c) return;
+        coffeeImg.src = c.img;
+        detailsName.textContent = c.name;
+        detailsText.textContent = c.text;
+        detailsPrice.textContent = '$' + c.price;
+        detailsName.style.color = 'var(--accent)';
+        moreBtn.style.background = 'var(--accent)';
+    });
 });
 
-// toggle details panel
+// Toggle details panel
 moreBtn.addEventListener('click', ()=>{
-  detailsPanel.classList.add('active');
-  moreBtn.style.display='none';
-  cancelBtn.style.display='inline-block';
+    detailsPanel.classList.add('active');
+    moreBtn.style.display='none';
+    cancelBtn.style.display='inline-block';
 });
 cancelBtn.addEventListener('click', ()=>{
-  detailsPanel.classList.remove('active');
-  moreBtn.style.display='inline-block';
-  cancelBtn.style.display='none';
+    detailsPanel.classList.remove('active');
+    moreBtn.style.display='inline-block';
+    cancelBtn.style.display='none';
 });
 
-// cart functionality
+// Cart functionality
 addCartBtn.addEventListener('click', ()=>{
-  const currentCoffee = coffeeList.querySelector('.active').dataset.coffee;
-  const c = coffees[currentCoffee];
-  cart.push({...c});
-  renderCart();
+    const currentCoffee = document.querySelector('#coffeeList h3.active').dataset.coffee;
+    const c = coffees[currentCoffee];
+    cart.push({...c});
+    renderCart();
 });
-
 function renderCart(){
-  cartItemsEl.innerHTML = '';
-  let total = 0;
-  cart.forEach((item,index)=>{
-    total += parseFloat(item.price);
-    const li = document.createElement('li');
-    li.innerHTML = `${item.name} - $${item.price} <button class="remove-btn" onclick="removeCartItem(${index})">Remove</button>`;
-    cartItemsEl.appendChild(li);
-  });
-  cartTotalEl.textContent = '$' + total.toFixed(2);
+    cartItemsEl.innerHTML='';
+    let total = 0;
+    cart.forEach((item,index)=>{
+        total += parseFloat(item.price);
+        const li = document.createElement('li');
+        li.innerHTML = `${item.name} - $${item.price} <button class="remove-btn" onclick="removeCartItem(${index})">Remove</button>`;
+        cartItemsEl.appendChild(li);
+    });
+    cartTotalEl.textContent = '$' + total.toFixed(2);
 }
-
 function removeCartItem(index){
-  cart.splice(index,1);
-  renderCart();
+    cart.splice(index,1);
+    renderCart();
 }
 
-/* Mobile menu toggle */
+// Search & Filter
+const searchInput = document.getElementById('searchInput');
+const filterSelect = document.getElementById('filterSelect');
+searchInput.addEventListener('input', filterCoffees);
+filterSelect.addEventListener('change', filterCoffees);
+function filterCoffees(){
+    const search = searchInput.value.toLowerCase();
+    const filter = filterSelect.value;
+    coffeeList.forEach(item=>{
+        const key = item.dataset.coffee;
+        const c = coffees[key];
+        let show = c.name.toLowerCase().includes(search);
+        if(filter !== 'all') show = show && c.type === filter;
+        item.style.display = show ? 'block':'none';
+    });
+}
+
+// Reviews
+reviewForm.addEventListener('submit', e=>{
+    e.preventDefault();
+    const name = reviewName.value.trim();
+    const text = reviewText.value.trim();
+    if(name && text){
+        reviews.push({name,text});
+        renderReviews();
+        reviewForm.reset();
+    }
+});
+function renderReviews(){
+    reviewList.innerHTML='';
+    reviews.forEach(r=>{
+        const li = document.createElement('li');
+        li.textContent = `${r.name}: ${r.text}`;
+        reviewList.appendChild(li);
+    });
+}
+
+// Mobile menu
 const menuBtn = document.getElementById('menuBtn');
 const nav = document.getElementById('nav');
 if(menuBtn){
-  menuBtn.addEventListener('click', ()=>{
-    nav.classList.toggle('show');
-  });
+    menuBtn.addEventListener('click', ()=>{
+        nav.classList.toggle('show');
+    });
 }
 
-/* login/signup */
+// login/signup
 const loginBtn = document.getElementById('loginBtn');
 const signupBtn = document.getElementById('signupBtn');
 const loginPopup = document.getElementById('loginPopup');
 const signupPopup = document.getElementById('signupPopup');
 if(loginBtn) loginBtn.addEventListener('click', (e)=>{ e.preventDefault(); loginPopup.style.display='flex'; })
 if(signupBtn) signupBtn.addEventListener('click', (e)=>{ e.preventDefault(); signupPopup.style.display='flex'; })
-function closePopups(){
-  if(loginPopup) loginPopup.style.display='none';
-  if(signupPopup) signupPopup.style.display='none';
-}
+function closePopups(){ if(loginPopup) loginPopup.style.display='none'; if(signupPopup) signupPopup.style.display='none'; }
 </script>
 
 </body>
