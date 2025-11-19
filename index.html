@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Coffee Shop</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 /* ---------- Base ---------- */
 :root{
@@ -114,11 +114,349 @@ section{padding:120px 24px;min-height:100vh}
   100% {opacity:1; transform:translateY(0);}
 }
 
-/* popup (login/signup) */
+/* popup (login/signup/admin) */
 .popup-bg{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:2200}
 .popup-box{width:360px;background:#1a1a1a;padding:26px;border-radius:10px;animation:pop .32s ease both}
 .popup-box h3{color:var(--accent);text-align:center;margin-bottom:12px}
 .popup-box input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:none;background:#2b2b2b;color:#fff}
+
+/* Tab Navigation */
+.tab-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+.tab-btn:hover:not(.active) {
+  color: #fff;
+}
+
+/* Tab Content */
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+
+/* Admin Dashboard */
+.admin-panel {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  z-index: 3000;
+  overflow-y: auto;
+}
+
+.admin-header {
+  background: #1a1a1a;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-nav {
+  display: flex;
+  gap: 20px;
+  background: #1a1a1a;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-nav-btn.active {
+  background: var(--accent);
+  color: #000;
+}
+
+.admin-content {
+  padding: 24px;
+}
+
+.admin-section {
+  display: none;
+}
+
+.admin-section.active {
+  display: block;
+}
+
+.admin-card {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.admin-card h3 {
+  color: var(--accent-2);
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: #1a1a1a;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.stat-card i {
+  font-size: 28px;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.stat-card .value {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--accent-2);
+  margin: 8px 0;
+}
+
+.stat-card .label {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-image {
+  height: 160px;
+  background: #2b2b2b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+
+.product-info {
+  padding: 16px;
+}
+
+.product-info h4 {
+  color: var(--accent-2);
+  margin-bottom: 8px;
+}
+
+.product-price {
+  color: var(--accent);
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.product-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.btn-edit {
+  background: #2b5bff;
+  color: white;
+}
+
+.btn-delete {
+  background: #ff4757;
+  color: white;
+}
+
+.coupons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.coupon-card {
+  background: #1a1a1a;
+  border-radius: 10px;
+  padding: 20px;
+  border-left: 4px solid var(--accent);
+}
+
+.coupon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.coupon-code {
+  background: rgba(212, 163, 115, 0.2);
+  color: var(--accent);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.coupon-status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.status-active {
+  background: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+}
+
+.status-expired {
+  background: rgba(255, 71, 87, 0.2);
+  color: #ff4757;
+}
+
+.coupon-details {
+  margin-bottom: 16px;
+}
+
+.coupon-details p {
+  margin: 4px 0;
+  color: var(--muted);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #2b2b2b;
+  color: #fff;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.btn-add {
+  background: var(--accent);
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.recent-orders {
+  margin-top: 24px;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-table th, .order-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.order-table th {
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
+.order-status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.status-completed {
+  background: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+}
+
+.status-pending {
+  background: rgba(255, 171, 0, 0.2);
+  color: #ffab00;
+}
+
+.status-cancelled {
+  background: rgba(255, 71, 87, 0.2);
+  color: #ff4757;
+}
 
 /* footer */
 footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rgba(255,255,255,0.03);background:transparent}
@@ -134,6 +472,7 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
   .locations-grid{grid-template-columns:repeat(2,1fr)}
   .contact-grid{grid-template-columns:repeat(2,1fr)}
   .hero h1{font-size:44px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:760px){
   .header-wrap{height:64px}
@@ -148,12 +487,16 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
   .locations-grid{grid-template-columns:1fr}
   .contact-grid{grid-template-columns:1fr}
   .hero-img img{width:280px}
+  .stats-grid{grid-template-columns:1fr}
+  .admin-nav{flex-wrap:wrap}
+  .form-row{flex-direction:column}
 }
 @media (max-width:420px){
   .hero h1{font-size:26px}
   .hero-img img{width:220px}
   .gallery-grid img{height:140px}
   .contact-box p{font-size:13px}
+  .popup-box{width:300px;padding:20px;}
 }
 
 /* small helper */
@@ -174,7 +517,6 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
       <a href="#locations">Store Locations</a>
       <a href="#contact">Contact</a>
       <a href="#" id="loginBtn">Login</a>
-      <a href="#" id="signupBtn">Sign Up</a>
     </nav>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">☰</button>
   </header>
@@ -200,7 +542,7 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
 <section id="about">
   <div class="container">
     <h2>About Our Coffee Shop</h2>
-    <p>We’re passionate about crafting the finest coffee experience. Each cup we brew combines high-quality beans, rich aroma, and the warmth of our baristas’ love. Whether you’re enjoying a cappuccino, mocha, or our special caramel latte, we promise a delightful taste of perfection.</p>
+    <p>We're passionate about crafting the finest coffee experience. Each cup we brew combines high-quality beans, rich aroma, and the warmth of our baristas' love. Whether you're enjoying a cappuccino, mocha, or our special caramel latte, we promise a delightful taste of perfection.</p>
   </div>
 </section>
 
@@ -210,7 +552,7 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
     <h2>Our Gallery</h2>
     <p style="color:var(--muted)">Take a visual tour through some of our favorite creations and cozy corners of our café.</p>
     <div class="gallery-grid" aria-hidden="false">
-      <img src="images/gallery1.avif" alt="gallery image 1">
+            <img src="images/gallery1.avif" alt="gallery image 1">
       <img src="images/gallery2.avif" alt="gallery image 2">
       <img src="images/gallery3.avif" alt="gallery image 3">
       <img src="images/gallery4.avif" alt="gallery image 4">
@@ -244,6 +586,7 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
     <img src="images/gallery32.avif">
 
 
+
     </div>
   </div>
 </section>
@@ -261,7 +604,6 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.651712491734!2d90.36487667508295!3d23.79353248715965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf50f147cc79%3A0x692ea6b9b2d9c1b7!2sDhanmondi%20Lake!5e0!3m2!1sen!2sbd!4v1699879289309!5m2!1sen!2sbd" loading="lazy"></iframe>
       </div>
 
-
       <div class="location-box">
         <h3>Chittagong - GEC Branch</h3>
         <p>GEC Circle, Nasirabad, Chattogram.</p>
@@ -273,7 +615,10 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
         <p>Zindabazar, Sylhet City.</p>
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3647.932955011894!2d91.86437817508512!3d24.896859677905344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3750551d9c882fbf%3A0x6e0e9b3edb58a271!2sZindabazar%2C%20Sylhet!5e0!3m2!1sen!2sbd!4v1699879365405!5m2!1sen!2sbd" loading="lazy"></iframe>
       </div>
-          <div class="location-box">
+
+
+
+      <div class="location-box">
       <h3>Rajshahi - Shaheb Bazar Branch</h3>
       <p>Shaheb Bazar, Rajshahi City.</p>
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3643.403946565849!2d88.6012651750908!3d24.37057167818195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fbef4879e5a1c1%3A0x9a504fba53cb83de!2sShaheb%20Bazar%2C%20Rajshahi!5e0!3m2!1sen!2sbd!4v1699879394234!5m2!1sen!2sbd" loading="lazy"></iframe>
@@ -283,6 +628,12 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
       <p>Uttara sector 11, Dhaka City.</p>
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3643.403946565849!2d88.6012651750908!3d24.37057167818195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fbef4879e5a1c1%3A0x9a504fba53cb83de!2sShaheb%20Bazar%2C%20Rajshahi!5e0!3m2!1sen!2sbd!4v1699879394234!5m2!1sen!2sbd" loading="lazy"></iframe>
     </div>
+
+
+
+
+
+
 
 
           <div class="location-box">
@@ -314,7 +665,7 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
 <section id="contact">
   <div class="container">
     <h2>Contact Us</h2>
-    <p style="color:var(--muted)">We’d love to hear from you! Reach out to us anytime for inquiries, collaborations, or a friendly coffee chat.</p>
+    <p style="color:var(--muted)">We'd love to hear from you! Reach out to us anytime for inquiries, collaborations, or a friendly coffee chat.</p>
 
     <div class="contact-grid">
       <div class="contact-box">
@@ -324,8 +675,7 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
         <p>Address: House 12, Road 5, Dhanmondi, Dhaka</p>
       </div>
 
-
-            <div class="contact-box">
+      <div class="contact-box">
         <h3>Chittagong - GEC Branch</h3>
         <p>Email: <a href="mailto:ctg@coffeestore.com">ctg@coffeestore.com</a></p>
         <p>Phone: <a href="tel:+880123400002">+880 1234 00002</a></p>
@@ -346,9 +696,7 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
         <p>Address: Shaheb Bazar, Rajshahi City</p>
       </div>
 
-
-
-         <div class="contact-box">
+               <div class="contact-box">
       <h3>Khulna - New Market Branch</h3>
       <p>Email: <a href="mailto:khulna@coffeestore.com">khulna@coffeestore.com</a></p>
       <p>Phone: <a href="tel:+880123400005">+880 1234 00005</a></p>
@@ -376,31 +724,376 @@ footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rg
       <p>Address: Jalesharitala, Bogura Cantonment</p>
     </div>
 
-
-      
     </div>
   </div>
 </section>
 
-<!-- LOGIN POPUPS -->
+<!-- LOGIN / SIGNUP / ADMIN POPUP -->
 <div class="popup-bg" id="loginPopup">
   <div class="popup-box">
-    <h3>Login</h3>
-    <input type="email" id="loginEmail" placeholder="Email">
-    <input type="password" id="loginPassword" placeholder="Password">
-    <button id="loginSubmit" style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Login</button>
     <div class="close-btn" style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="login">Login</button>
+      <button class="tab-btn" data-tab="signup">Sign Up</button>
+      <button class="tab-btn" data-tab="admin">Admin</button>
+    </div>
+
+    <!-- Login Form -->
+    <div class="tab-content active" id="login-tab">
+      <h3>Login</h3>
+      <input type="email" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button id="loginSubmit" class="btn-primary" style="width:100%;padding:10px;margin-top:8px;border:none;border-radius:8px;">Login</button>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="tab-content" id="signup-tab">
+      <h3>Sign Up</h3>
+      <input type="text" id="signupName" placeholder="Full Name">
+      <input type="email" id="signupEmail" placeholder="Email">
+      <input type="password" id="signupPassword" placeholder="Password">
+      <button id="signupSubmit" class="btn-primary" style="width:100%;padding:10px;margin-top:8px;border:none;border-radius:8px;">Sign Up</button>
+    </div>
+
+    <!-- Admin Form -->
+    <div class="tab-content" id="admin-tab">
+      <h3>Admin Login</h3>
+      <input type="text" id="adminUser" placeholder="Username">
+      <input type="password" id="adminPass" placeholder="Password">
+      <button id="adminSubmit" class="btn-primary" style="width:100%;padding:10px;margin-top:8px;border:none;border-radius:8px;">Login</button>
+    </div>
+
   </div>
 </div>
 
-<div class="popup-bg" id="signupPopup">
-  <div class="popup-box">
-    <h3>Sign Up</h3>
-    <input type="text" id="signupName" placeholder="Full Name">
-    <input type="email" id="signupEmail" placeholder="Email">
-    <input type="password" id="signupPassword" placeholder="Password">
-    <button id="signupSubmit" style="width:100%;padding:10px;margin-top:8px;background:var(--accent);color:#000;border:none;border-radius:8px;">Sign Up</button>
-    <div class="close-btn" style="text-align:center;margin-top:8px;color:var(--muted);cursor:pointer" onclick="closePopups()">Close</div>
+<!-- Admin Dashboard -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-header">
+    <h2><i class="fas fa-coffee"></i> Coffee Shop Admin</h2>
+    <button class="btn btn-ghost" onclick="closeAdminPanel()">Logout</button>
+  </div>
+  
+  <div class="admin-nav">
+    <button class="admin-nav-btn active" data-section="dashboard">Dashboard</button>
+    <button class="admin-nav-btn" data-section="products">Products</button>
+    <button class="admin-nav-btn" data-section="coupons">Coupons</button>
+    <button class="admin-nav-btn" data-section="orders">Orders</button>
+  </div>
+  
+  <div class="admin-content">
+    <!-- Dashboard Section -->
+    <div class="admin-section active" id="dashboard-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <i class="fas fa-shopping-bag"></i>
+          <div class="value">1,247</div>
+          <div class="label">Total Orders</div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-coffee"></i>
+          <div class="value">342</div>
+          <div class="label">Products</div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-tags"></i>
+          <div class="value">28</div>
+          <div class="label">Active Coupons</div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-dollar-sign"></i>
+          <div class="value">$12,847</div>
+          <div class="label">Revenue</div>
+        </div>
+      </div>
+      
+      <div class="admin-card">
+        <h3>Recent Orders</h3>
+        <div class="recent-orders">
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#ORD-7842</td>
+                <td>John Smith</td>
+                <td>2023-10-15</td>
+                <td>$24.50</td>
+                <td><span class="order-status status-completed">Completed</span></td>
+              </tr>
+              <tr>
+                <td>#ORD-7841</td>
+                <td>Sarah Johnson</td>
+                <td>2023-10-15</td>
+                <td>$18.75</td>
+                <td><span class="order-status status-pending">Pending</span></td>
+              </tr>
+              <tr>
+                <td>#ORD-7840</td>
+                <td>Michael Brown</td>
+                <td>2023-10-14</td>
+                <td>$32.25</td>
+                <td><span class="order-status status-completed">Completed</span></td>
+              </tr>
+              <tr>
+                <td>#ORD-7839</td>
+                <td>Emily Davis</td>
+                <td>2023-10-14</td>
+                <td>$15.50</td>
+                <td><span class="order-status status-cancelled">Cancelled</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Products Section -->
+    <div class="admin-section" id="products-section">
+      <div class="admin-card">
+        <h3>Add New Product</h3>
+        <div class="form-group">
+          <label for="productName">Product Name</label>
+          <input type="text" id="productName" placeholder="Enter product name">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="productPrice">Price</label>
+            <input type="number" id="productPrice" placeholder="0.00" step="0.01">
+          </div>
+          <div class="form-group">
+            <label for="productCategory">Category</label>
+            <select id="productCategory">
+              <option value="">Select category</option>
+              <option value="coffee">Coffee</option>
+              <option value="tea">Tea</option>
+              <option value="pastry">Pastry</option>
+              <option value="sandwich">Sandwich</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="productDescription">Description</label>
+          <textarea id="productDescription" rows="3" placeholder="Enter product description"></textarea>
+        </div>
+        <button class="btn-add"><i class="fas fa-plus"></i> Add Product</button>
+      </div>
+      
+      <div class="admin-card">
+        <h3>Product List</h3>
+        <div class="products-grid">
+          <div class="product-card">
+            <div class="product-image">
+              <i class="fas fa-coffee"></i>
+            </div>
+            <div class="product-info">
+              <h4>Espresso</h4>
+              <p class="product-price">$3.50</p>
+              <p>Strong and rich coffee shot</p>
+              <div class="product-actions">
+                <button class="btn-small btn-edit">Edit</button>
+                <button class="btn-small btn-delete">Delete</button>
+              </div>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-image">
+              <i class="fas fa-mug-hot"></i>
+            </div>
+            <div class="product-info">
+              <h4>Cappuccino</h4>
+              <p class="product-price">$4.75</p>
+              <p>Espresso with steamed milk foam</p>
+              <div class="product-actions">
+                <button class="btn-small btn-edit">Edit</button>
+                <button class="btn-small btn-delete">Delete</button>
+              </div>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-image">
+              <i class="fas fa-cookie"></i>
+            </div>
+            <div class="product-info">
+              <h4>Chocolate Croissant</h4>
+              <p class="product-price">$3.25</p>
+              <p>Flaky pastry with chocolate filling</p>
+              <div class="product-actions">
+                <button class="btn-small btn-edit">Edit</button>
+                <button class="btn-small btn-delete">Delete</button>
+              </div>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-image">
+              <i class="fas fa-leaf"></i>
+            </div>
+            <div class="product-info">
+              <h4>Green Tea</h4>
+              <p class="product-price">$2.50</p>
+              <p>Refreshing Japanese green tea</p>
+              <div class="product-actions">
+                <button class="btn-small btn-edit">Edit</button>
+                <button class="btn-small btn-delete">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Coupons Section -->
+    <div class="admin-section" id="coupons-section">
+      <div class="admin-card">
+        <h3>Create New Coupon</h3>
+        <div class="form-group">
+          <label for="couponCode">Coupon Code</label>
+          <input type="text" id="couponCode" placeholder="Enter coupon code">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="couponDiscount">Discount (%)</label>
+            <input type="number" id="couponDiscount" placeholder="10" min="1" max="100">
+          </div>
+          <div class="form-group">
+            <label for="couponExpiry">Expiry Date</label>
+            <input type="date" id="couponExpiry">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="couponDescription">Description</label>
+          <input type="text" id="couponDescription" placeholder="Enter coupon description">
+        </div>
+        <button class="btn-add"><i class="fas fa-plus"></i> Create Coupon</button>
+      </div>
+      
+      <div class="admin-card">
+        <h3>Active Coupons</h3>
+        <div class="coupons-grid">
+          <div class="coupon-card">
+            <div class="coupon-header">
+              <span class="coupon-code">WELCOME10</span>
+              <span class="coupon-status status-active">Active</span>
+            </div>
+            <div class="coupon-details">
+              <p><strong>10% OFF</strong> on all orders</p>
+              <p>Expires: 2023-12-31</p>
+              <p>Used: 142 times</p>
+            </div>
+            <div class="product-actions">
+              <button class="btn-small btn-edit">Edit</button>
+              <button class="btn-small btn-delete">Deactivate</button>
+            </div>
+          </div>
+          <div class="coupon-card">
+            <div class="coupon-header">
+              <span class="coupon-code">COFFEELOVER</span>
+              <span class="coupon-status status-active">Active</span>
+            </div>
+            <div class="coupon-details">
+              <p><strong>15% OFF</strong> on coffee drinks</p>
+              <p>Expires: 2023-11-30</p>
+              <p>Used: 89 times</p>
+            </div>
+            <div class="product-actions">
+              <button class="btn-small btn-edit">Edit</button>
+              <button class="btn-small btn-delete">Deactivate</button>
+            </div>
+          </div>
+          <div class="coupon-card">
+            <div class="coupon-header">
+              <span class="coupon-code">FREESHIP</span>
+              <span class="coupon-status status-expired">Expired</span>
+            </div>
+            <div class="coupon-details">
+              <p><strong>Free Shipping</strong> on orders over $25</p>
+              <p>Expired: 2023-10-01</p>
+              <p>Used: 203 times</p>
+            </div>
+            <div class="product-actions">
+              <button class="btn-small btn-edit">Edit</button>
+              <button class="btn-small btn-delete">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Orders Section -->
+    <div class="admin-section" id="orders-section">
+      <div class="admin-card">
+        <h3>Order Management</h3>
+        <div class="recent-orders">
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#ORD-7842</td>
+                <td>John Smith</td>
+                <td>2x Cappuccino, 1x Croissant</td>
+                <td>2023-10-15</td>
+                <td>$24.50</td>
+                <td><span class="order-status status-completed">Completed</span></td>
+                <td>
+                  <button class="btn-small btn-edit">View</button>
+                </td>
+              </tr>
+              <tr>
+                <td>#ORD-7841</td>
+                <td>Sarah Johnson</td>
+                <td>1x Espresso, 1x Green Tea</td>
+                <td>2023-10-15</td>
+                <td>$18.75</td>
+                <td><span class="order-status status-pending">Pending</span></td>
+                <td>
+                  <button class="btn-small btn-edit">Process</button>
+                </td>
+              </tr>
+              <tr>
+                <td>#ORD-7840</td>
+                <td>Michael Brown</td>
+                <td>3x Latte, 2x Muffin</td>
+                <td>2023-10-14</td>
+                <td>$32.25</td>
+                <td><span class="order-status status-completed">Completed</span></td>
+                <td>
+                  <button class="btn-small btn-edit">View</button>
+                </td>
+              </tr>
+              <tr>
+                <td>#ORD-7839</td>
+                <td>Emily Davis</td>
+                <td>1x Americano, 1x Sandwich</td>
+                <td>2023-10-14</td>
+                <td>$15.50</td>
+                <td><span class="order-status status-cancelled">Cancelled</span></td>
+                <td>
+                  <button class="btn-small btn-edit">View</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -421,18 +1114,69 @@ if(menuBtn){
   });
 }
 
-/* login / signup popups */
+/* login popup */
 const loginBtn = document.getElementById('loginBtn');
-const signupBtn = document.getElementById('signupBtn');
 const loginPopup = document.getElementById('loginPopup');
-const signupPopup = document.getElementById('signupPopup');
 
-if(loginBtn) loginBtn.addEventListener('click', (e)=>{ e.preventDefault(); loginPopup.style.display='flex'; });
-if(signupBtn) signupBtn.addEventListener('click', (e)=>{ e.preventDefault(); signupPopup.style.display='flex'; });
+if(loginBtn) loginBtn.addEventListener('click', (e)=>{ 
+  e.preventDefault(); 
+  loginPopup.style.display='flex'; 
+});
 
 function closePopups(){
   if(loginPopup) loginPopup.style.display='none';
-  if(signupPopup) signupPopup.style.display='none';
+}
+
+/* Tab functionality */
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Remove active class from all tabs and contents
+    tabBtns.forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => {
+      content.classList.remove('active');
+    });
+    
+    // Add active class to clicked tab and corresponding content
+    btn.classList.add('active');
+    const tabId = btn.getAttribute('data-tab');
+    document.getElementById(`${tabId}-tab`).classList.add('active');
+  });
+});
+
+/* Admin Panel Navigation */
+const adminNavBtns = document.querySelectorAll('.admin-nav-btn');
+adminNavBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Remove active class from all nav buttons and sections
+    adminNavBtns.forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.admin-section').forEach(section => {
+      section.classList.remove('active');
+    });
+    
+    // Add active class to clicked button and corresponding section
+    btn.classList.add('active');
+    const sectionId = btn.getAttribute('data-section');
+    document.getElementById(`${sectionId}-section`).classList.add('active');
+  });
+});
+
+/* Admin Login */
+document.getElementById('adminSubmit').addEventListener('click', ()=>{
+  const username = document.getElementById('adminUser').value;
+  const pass = document.getElementById('adminPass').value;
+  
+  // Simple admin authentication (in real app, this would be server-side)
+  if(username === 'admin' && pass === 'admin123') {
+    document.getElementById('adminPanel').style.display = 'block';
+    closePopups();
+  } else {
+    alert('Invalid admin credentials. Try: admin / admin123');
+  }
+});
+
+function closeAdminPanel() {
+  document.getElementById('adminPanel').style.display = 'none';
 }
 
 /* popup form alerts */
@@ -441,6 +1185,7 @@ document.getElementById('loginSubmit').addEventListener('click', ()=>{
   const pass = document.getElementById('loginPassword').value;
   if(email && pass){
     alert(`Login Info:\nEmail: ${email}\nPassword: ${pass}`);
+    closePopups();
   } else {
     alert('Please fill both email and password');
   }
@@ -452,6 +1197,7 @@ document.getElementById('signupSubmit').addEventListener('click', ()=>{
   const pass = document.getElementById('signupPassword').value;
   if(name && email && pass){
     alert(`Sign Up Info:\nName: ${name}\nEmail: ${email}\nPassword: ${pass}`);
+    closePopups();
   } else {
     alert('Please fill all fields');
   }
@@ -464,6 +1210,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 document.querySelectorAll('.nav a').forEach(a=>{
   a.addEventListener('click', ()=>{ if(nav.classList.contains('show')) nav.classList.remove('show'); });
 });
+
 </script>
 
 </body>
