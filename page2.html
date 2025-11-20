@@ -435,12 +435,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!input.value.trim()){ alert('Fill all card fields!'); return; }
       }
       const total = cart.reduce((s,i)=>s+parseFloat(i.price),0).toFixed(2);
-      alert(`Payment of $${total} via Card successful!\nCard Holder: ${inputs[1].value}`);
-      cart = []; renderCart();
-      paymentForm.reset();
-      cardInterface.style.display = 'none';
-      paymentSection.style.display = 'none';
-      coffeeContent.style.display = 'block';
+
+      // Prompt for customer info (simple flow)
+      const custName = prompt('Enter your name for the order (optional):','');
+      const custEmail = prompt('Enter your email for the order (optional):','');
+
+      const order = {
+        items: cart.map(i=>({ name: i.name, price: parseFloat(i.price), qty: 1 })),
+        total: parseFloat(total),
+        customer: { name: custName || 'Guest', email: custEmail || '' },
+        paymentMethod: 'card',
+        paymentRef: inputs[0].value.replace(/\s+/g,'')
+      };
+
+      fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) })
+        .then(r=>r.json())
+        .then(() => {
+          alert(`Payment of $${total} via Card successful!\nCard Holder: ${inputs[1].value}`);
+          cart = []; renderCart();
+          paymentForm.reset();
+          cardInterface.style.display = 'none';
+          paymentSection.style.display = 'none';
+          coffeeContent.style.display = 'block';
+        })
+        .catch(err => {
+          console.error('Order save failed', err);
+          alert('Payment succeeded but saving order failed. Check server.');
+        });
     }
   });
 
@@ -449,24 +470,64 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = bkashInterface.querySelector('input').value.trim();
     if(!input){ alert('Enter your Bkash number!'); return; }
     const total = cart.reduce((s,i)=>s+parseFloat(i.price),0).toFixed(2);
-    alert(`Payment of $${total} via Bkash successful!\nNumber: ${input}`);
-    cart = []; renderCart();
-    bkashInterface.querySelector('input').value = '';
-    bkashInterface.style.display = 'none';
-    paymentSection.style.display = 'none';
-    coffeeContent.style.display = 'block';
+
+    const custName = prompt('Enter your name for the order (optional):','');
+    const custEmail = prompt('Enter your email for the order (optional):','');
+
+    const order = {
+      items: cart.map(i=>({ name: i.name, price: parseFloat(i.price), qty: 1 })),
+      total: parseFloat(total),
+      customer: { name: custName || 'Guest', email: custEmail || '' },
+      paymentMethod: 'bkash',
+      paymentRef: input
+    };
+
+    fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) })
+      .then(r=>r.json())
+      .then(() => {
+        alert(`Payment of $${total} via Bkash successful!\nNumber: ${input}`);
+        cart = []; renderCart();
+        bkashInterface.querySelector('input').value = '';
+        bkashInterface.style.display = 'none';
+        paymentSection.style.display = 'none';
+        coffeeContent.style.display = 'block';
+      })
+      .catch(err => {
+        console.error('Order save failed', err);
+        alert('Payment succeeded but saving order failed. Check server.');
+      });
   });
 
   nagadPayBtn.addEventListener('click', () => {
     const input = nagadInterface.querySelector('input').value.trim();
     if(!input){ alert('Enter your Nagad number!'); return; }
     const total = cart.reduce((s,i)=>s+parseFloat(i.price),0).toFixed(2);
-    alert(`Payment of $${total} via Nagad successful!\nNumber: ${input}`);
-    cart = []; renderCart();
-    nagadInterface.querySelector('input').value = '';
-    nagadInterface.style.display = 'none';
-    paymentSection.style.display = 'none';
-    coffeeContent.style.display = 'block';
+
+    const custName = prompt('Enter your name for the order (optional):','');
+    const custEmail = prompt('Enter your email for the order (optional):','');
+
+    const order = {
+      items: cart.map(i=>({ name: i.name, price: parseFloat(i.price), qty: 1 })),
+      total: parseFloat(total),
+      customer: { name: custName || 'Guest', email: custEmail || '' },
+      paymentMethod: 'nagad',
+      paymentRef: input
+    };
+
+    fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) })
+      .then(r=>r.json())
+      .then(() => {
+        alert(`Payment of $${total} via Nagad successful!\nNumber: ${input}`);
+        cart = []; renderCart();
+        nagadInterface.querySelector('input').value = '';
+        nagadInterface.style.display = 'none';
+        paymentSection.style.display = 'none';
+        coffeeContent.style.display = 'block';
+      })
+      .catch(err => {
+        console.error('Order save failed', err);
+        alert('Payment succeeded but saving order failed. Check server.');
+      });
   });
 
   // Mobile menu (if used)

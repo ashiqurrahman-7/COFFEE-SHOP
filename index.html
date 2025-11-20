@@ -1162,22 +1162,261 @@ adminNavBtns.forEach(btn => {
 });
 
 /* Admin Login */
-document.getElementById('adminSubmit').addEventListener('click', ()=>{
+document.getElementById('adminSubmit').addEventListener('click', async (e)=>{
+  e.preventDefault && e.preventDefault();
   const username = document.getElementById('adminUser').value;
   const pass = document.getElementById('adminPass').value;
-  
-  // Simple admin authentication (in real app, this would be server-side)
-  if(username === 'admin' && pass === 'admin123') {
-    document.getElementById('adminPanel').style.display = 'block';
-    closePopups();
-  } else {
-    alert('Invalid admin credentials. Try: admin / admin123');
+  try{
+    const res = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password: pass })
+    });
+    const data = await res.json();
+    if(res.ok && data && data.token){
+      // store token and open admin panel
+      localStorage.setItem('adminToken', data.token);
+      document.getElementById('adminPanel').style.display = 'block';
+      closePopups();
+      // load admin data
+      setTimeout(loadAdminData, 250);
+    } else if(res.ok && data && data.success){
+      // older demo response: { success:true, token: 'demo-admin-token' }
+      const token = data.token || 'demo-admin-token';
+      localStorage.setItem('adminToken', token);
+      document.getElementById('adminPanel').style.display = 'block';
+      closePopups();
+      setTimeout(loadAdminData, 250);
+    } else {
+      alert((data && data.message) || 'Invalid admin credentials');
+    }
+  }catch(err){
+    console.error('Admin login failed', err);
+    alert('Admin login error — check server logs');
   }
 });
 
 function closeAdminPanel() {
   document.getElementById('adminPanel').style.display = 'none';
 }
+
+// --- Admin client integration with backend ---
+// helper to call API with optional admin token header
+function apiFetch(path, opts = {}){
+  const headers = opts.headers || {};
+  headers['Content-Type'] = headers['Content-Type'] || 'application/json';
+  const token = localStorage.getItem('adminToken');
+  if(token) headers['x-admin-key'] = token;
+  return fetch('/api' + path, Object.assign({}, opts, { headers })).then(async res=>{
+    const txt = await res.text();
+    try { return JSON.parse(txt); } catch(e){ return txt; }
+  });
+}
+
+// when admin panel opens, load data
+function loadAdminData(){
+  loadProducts();
+  loadCoupons();
+  loadOrders();
+}
+
+// --- Products ---
+async function loadProducts(){
+  try{
+    const products = await apiFetch('/products');
+    const grid = document.querySelector('#products-section .products-grid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    products.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.dataset.id = p._id;
+      card.innerHTML = `
+        <div class="product-image">${p.image?`<img src="${p.image}" style="max-width:100%;height:100%;object-fit:cover">`:'<i class="fas fa-coffee"></i>'}</div>
+        <div class="product-info">
+          <h4>${p.name}</h4>
+          <p class="product-price">$${p.price.toFixed? p.price.toFixed(2): p.price}</p>
+          <p>${p.description || ''}</p>
+          <div class="product-actions">
+            <button class="btn-small btn-edit" data-id="${p._id}">Edit</button>
+            <button class="btn-small btn-delete" data-id="${p._id}">Delete</button>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }catch(e){ console.warn('Load products failed', e); }
+}
+
+// Add product handler
+const addProductBtn = document.querySelector('#products-section .btn-add');
+if(addProductBtn){
+  addProductBtn.addEventListener('click', async (e)=>{
+    e.preventDefault();
+    const name = document.getElementById('productName').value.trim();
+    const price = parseFloat(document.getElementById('productPrice').value) || 0;
+    const category = document.getElementById('productCategory').value;
+    const description = document.getElementById('productDescription').value.trim();
+    if(!name || !price){ alert('Please provide name and price'); return; }
+    try{
+      await apiFetch('/products', { method: 'POST', body: JSON.stringify({ name, price, category, description }) });
+      // clear inputs
+      document.getElementById('productName').value='';
+      document.getElementById('productPrice').value='';
+      document.getElementById('productCategory').value='';
+      document.getElementById('productDescription').value='';
+      loadProducts();
+      alert('Product added');
+    }catch(err){ alert('Add product failed'); console.error(err); }
+  });
+}
+
+// Product actions (edit/delete) - event delegation
+document.addEventListener('click', async (ev)=>{
+  const editBtn = ev.target.closest('.btn-edit');
+  const delBtn = ev.target.closest('.btn-delete');
+  if(editBtn){
+    const id = editBtn.dataset.id;
+    const card = editBtn.closest('.product-card');
+    const currentName = card.querySelector('h4').textContent;
+    const currentPriceText = card.querySelector('.product-price').textContent.replace('$','');
+    const newName = prompt('Product name:', currentName);
+    if(newName === null) return; // cancelled
+    const newPrice = prompt('Price:', currentPriceText);
+    if(newPrice === null) return;
+    try{
+      await apiFetch(`/products/${id}`, { method: 'PUT', body: JSON.stringify({ name: newName, price: parseFloat(newPrice) }) });
+      loadProducts();
+    }catch(e){ alert('Update failed'); }
+  }
+  if(delBtn){
+    const id = delBtn.dataset.id;
+    if(!confirm('Delete this product?')) return;
+    try{
+      await apiFetch(`/products/${id}`, { method: 'DELETE' });
+      loadProducts();
+    }catch(e){ alert('Delete failed'); }
+  }
+});
+
+// --- Coupons ---
+async function loadCoupons(){
+  try{
+    const coupons = await apiFetch('/coupons');
+    const grid = document.querySelector('#coupons-section .coupons-grid');
+    if(!grid) return;
+    grid.innerHTML='';
+    coupons.forEach(c=>{
+      const node = document.createElement('div');
+      node.className = 'coupon-card';
+      node.dataset.id = c._id;
+      node.innerHTML = `
+        <div class="coupon-header">
+          <span class="coupon-code">${c.code}</span>
+          <span class="coupon-status ${c.active? 'status-active':'status-expired'}">${c.active? 'Active':'Expired'}</span>
+        </div>
+        <div class="coupon-details">
+          <p><strong>${c.discount}% OFF</strong></p>
+          <p>Expires: ${c.expiry? new Date(c.expiry).toLocaleDateString() : 'N/A'}</p>
+          <p>${c.description||''}</p>
+        </div>
+        <div class="product-actions">
+          <button class="btn-small btn-edit-coupon" data-id="${c._id}">Edit</button>
+          <button class="btn-small btn-deactivate-coupon" data-id="${c._id}">${c.active? 'Deactivate':'Activate'}</button>
+        </div>`;
+      grid.appendChild(node);
+    });
+  }catch(e){ console.warn(e); }
+}
+
+const addCouponBtn = document.querySelector('#coupons-section .btn-add');
+if(addCouponBtn){
+  addCouponBtn.addEventListener('click', async ()=>{
+    const code = document.getElementById('couponCode').value.trim();
+    const discount = parseFloat(document.getElementById('couponDiscount').value)||0;
+    const expiry = document.getElementById('couponExpiry').value || null;
+    const description = document.getElementById('couponDescription').value || '';
+    if(!code || !discount){ alert('Provide code and discount'); return; }
+    try{
+      await apiFetch('/coupons', { method: 'POST', body: JSON.stringify({ code, discount, expiry, description }) });
+      document.getElementById('couponCode').value='';
+      document.getElementById('couponDiscount').value='';
+      document.getElementById('couponExpiry').value='';
+      document.getElementById('couponDescription').value='';
+      loadCoupons();
+    }catch(e){ alert('Create coupon failed'); }
+  });
+}
+
+// coupon edit/deactivate delegation
+document.addEventListener('click', async (ev)=>{
+  const edit = ev.target.closest('.btn-edit-coupon');
+  const deact = ev.target.closest('.btn-deactivate-coupon');
+  if(edit){
+    const id = edit.dataset.id;
+    const newCode = prompt('Coupon code:'); if(newCode===null) return;
+    const newDiscount = prompt('Discount %:'); if(newDiscount===null) return;
+    await apiFetch(`/coupons/${id}`, { method: 'PUT', body: JSON.stringify({ code: newCode, discount: parseFloat(newDiscount) }) });
+    loadCoupons();
+  }
+  if(deact){
+    const id = deact.dataset.id;
+    // toggle active state
+    const node = deact.closest('.coupon-card');
+    const isActive = node.querySelector('.coupon-status').textContent === 'Active';
+    await apiFetch(`/coupons/${id}`, { method: 'PUT', body: JSON.stringify({ active: !isActive }) });
+    loadCoupons();
+  }
+});
+
+// --- Orders ---
+async function loadOrders(){
+  try{
+    const orders = await apiFetch('/orders');
+    const tbody = document.querySelector('#orders-section .order-table tbody');
+    if(!tbody) return;
+    tbody.innerHTML='';
+    orders.forEach(o=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${o._id}</td>
+        <td>${o.customer && o.customer.name? o.customer.name : ''}</td>
+        <td>${(o.items||[]).map(i=>i.name + ' x' + (i.qty||1)).join(', ')}</td>
+        <td>${new Date(o.createdAt).toLocaleDateString()}</td>
+        <td>$${(o.total||0).toFixed? (o.total||0).toFixed(2) : o.total}</td>
+        <td><span class="order-status ${o.status==='completed'? 'status-completed': o.status==='pending'? 'status-pending':'status-cancelled'}">${o.status}</span></td>
+        <td><button class="btn-small btn-process" data-id="${o._id}">Process</button></td>`;
+      tbody.appendChild(tr);
+    });
+  }catch(e){ console.warn(e); }
+}
+
+document.addEventListener('click', async (ev)=>{
+  const proc = ev.target.closest('.btn-process');
+  if(proc){
+    const id = proc.dataset.id;
+    if(!confirm('Mark order as completed?')) return;
+    await apiFetch(`/orders/${id}`, { method: 'PUT', body: JSON.stringify({ status: 'completed' }) });
+    loadOrders();
+  }
+});
+
+// ensure adminToken is set when using the client-side admin login and load data
+const origAdminBtn = document.getElementById('adminSubmit');
+if(origAdminBtn){
+  origAdminBtn.addEventListener('click', ()=>{
+    // if credentials are the demo ones, set demo token and open admin panel (fallback)
+    const username = document.getElementById('adminUser').value;
+    const pass = document.getElementById('adminPass').value;
+    if(username==='admin' && pass==='admin123'){
+      localStorage.setItem('adminToken','demo-admin-token');
+      document.getElementById('adminPanel').style.display = 'block';
+      closePopups();
+      // small delay to allow panel to be shown
+      setTimeout(loadAdminData, 250);
+    }
+  });
+}
+
 
 /* popup form alerts */
 document.getElementById('loginSubmit').addEventListener('click', ()=>{
