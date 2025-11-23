@@ -1,0 +1,88 @@
+{
+  "users": [
+    {
+      "_id": "1",
+      "name": "Demo User",
+      "email": "demo@user.com",
+      "password": "$2a$10$00RikkieK.g1djWkdncrOerf0/8kzsmUyAbHgPI973l07aZqqMk3C",
+      "role": "customer"
+    }
+  ],
+  "products": [
+    {
+      "_id": "1",
+      "name": "Strawberry Coffee",
+      "price": 39.99,
+      "category": "hot",
+      "description": "Freshly brewed strawberry infused coffee.",
+      "image": "/images/cup2-removebg-preview.png",
+      "createdAt": "2025-11-23T11:03:35.503Z"
+    },
+    {
+      "_id": "2",
+      "name": "Green Tea Coffee",
+      "price": 29.99,
+      "category": "hot",
+      "description": "Smooth matcha green tea latte.",
+      "image": "/images/cup3-removebg-preview.png",
+      "createdAt": "2025-11-23T11:03:35.503Z"
+    },
+    {
+      "_id": "3",
+      "name": "Chocolate Coffee",
+      "price": 34.99,
+      "category": "hot",
+      "description": "Velvety cocoa blended coffee.",
+      "image": "/images/cup4-removebg-preview.png",
+      "createdAt": "2025-11-23T11:03:35.503Z"
+    },
+    {
+      "_id": "4",
+      "name": "Caramel Sauce & Vanilla Cream",
+      "price": 42.99,
+      "category": "hot",
+      "description": "Rich caramel sauce with smooth vanilla cream.",
+      "image": "/images/caramel-sauce-and-vanilla-cream.png",
+      "createdAt": "2025-11-23T11:03:35.503Z"
+    },
+    {
+      "_id": "5",
+      "name": "Iced Mint Cookie Latte",
+      "price": 36.99,
+      "category": "iced",
+      "description": "Refreshing iced mint cookie latte.",
+      "image": "/images/icedmintcookielatte.png",
+      "createdAt": "2025-11-23T11:03:35.503Z"
+    },
+    {
+      "_id": "6",
+      "name": "Iced Caramel Mocha",
+      "price": 44.99,
+      "category": "iced",
+      "description": "Chilled caramel mocha delight.",
+      "image": "/images/iced-caramel-mocha.png",
+      "createdAt": "2025-11-23T11:03:35.503Z"
+    }
+  ],
+  "coupons": [
+    {
+      "_id": "1",
+      "code": "WELCOME10",
+      "discount": 10,
+      "expiry": "2024-12-31T00:00:00.000Z",
+      "description": "10% OFF on all orders",
+      "active": true,
+      "createdAt": "2025-11-23T11:03:35.504Z"
+    },
+    {
+      "_id": "2",
+      "code": "COFFEELOVER",
+      "discount": 15,
+      "expiry": "2024-11-30T00:00:00.000Z",
+      "description": "15% OFF on coffee drinks",
+      "active": true,
+      "createdAt": "2025-11-23T11:03:35.504Z"
+    }
+  ],
+  "orders": []
+}

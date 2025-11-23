@@ -198,60 +198,99 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
 
     </div> <!-- end coffeeContent -->
 
-    <!-- Payment section (hidden by default). When paymentBtn clicked, coffeeContent hides and this shows -->
-    <div class="payment-container" id="paymentSection">
-      <h3 style="color:var(--accent-2);margin-bottom:12px">Payment Method</h3>
 
-      <form id="paymentForm">
-        <label><input type="radio" name="payment" value="bkash" required> Bkash</label>
-        <label><input type="radio" name="payment" value="nagad" required> Nagad</label>
-        <label><input type="radio" name="payment" value="card" required> Card</label>
 
-        <div id="bkashInterface" class="payment-interface bkash-interface">
-          <div style="display:flex;align-items:center;gap:10px;flex-direction:column;">
-            <img src="images/bkash.png" alt="Bkash" style="width:60px;margin-bottom:10px">
-            <label>Bkash Number</label>
-            <input type="text" placeholder="01XXXXXXXXX" required>
-            <button type="button" id="bkashPayBtn">Pay with Bkash</button>
-          </div>
-        </div>
+<!-- Payment section (hidden by default). When paymentBtn clicked, coffeeContent hides and this shows -->
+<div class="payment-container" id="paymentSection">
+  <h3 style="color:var(--accent-2);margin-bottom:12px">Payment Method</h3>
 
-        <div id="nagadInterface" class="payment-interface nagad-interface">
-          <div style="display:flex;align-items:center;gap:10px;flex-direction:column;">
-            <img src="images/nagad.jpg" alt="Nagad" style="width:60px;margin-bottom:10px">
-            <label>Nagad Number</label>
-            <input type="text" placeholder="01XXXXXXXXX" required>
-            <button type="button" id="nagadPayBtn">Pay with Nagad</button>
-          </div>
-        </div>
+  <!-- Coupon Section -->
+  <div class="coupon-section" style="margin-bottom:20px;padding:15px;background:#1a1a1a;border-radius:10px;">
+    <h4 style="color:var(--accent);margin-bottom:10px;">Apply Coupon</h4>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <input type="text" id="couponCodeInput" placeholder="Enter coupon code" style="flex:1;padding:8px;border-radius:6px;border:none;background:#2b2b2b;color:#fff;">
+      <button id="applyCouponBtn" style="padding:8px 16px;background:var(--accent);color:#000;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">Apply</button>
+    </div>
+    <div id="couponMessage" style="margin-top:8px;font-size:14px;"></div>
+    <div id="couponDetails" style="margin-top:8px;padding:8px;background:rgba(212,163,115,0.1);border-radius:6px;display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span id="couponInfo" style="color:var(--accent);font-weight:bold;"></span>
+        <button id="removeCouponBtn" style="background:#ff4757;color:white;border:none;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:12px;">Remove</button>
+      </div>
+    </div>
+  </div>
 
-        <div id="cardInterface" class="payment-interface card-interface">
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <label>Card Number</label>
-            <input type="text" placeholder="XXXX XXXX XXXX XXXX" required style="color:#000">
-            <label>Card Holder Name</label>
-            <input type="text" placeholder="Full Name" required style="color:#000">
-            <div style="display:flex;gap:8px;">
-              <div style="flex:1">
-                <label>Expiry</label>
-                <input type="text" placeholder="MM/YY" required style="color:#000">
-              </div>
-              <div style="flex:1">
-                <label>CVV</label>
-                <input type="text" placeholder="XXX" required style="color:#000">
-              </div>
-            </div>
-            <button type="submit" id="cardPayBtn">Pay with Card</button>
-          </div>
-        </div>
+  <!-- Order Summary -->
+  <div class="order-summary" style="margin-bottom:20px;padding:15px;background:#1a1a1a;border-radius:10px;">
+    <h4 style="color:var(--accent);margin-bottom:10px;">Order Summary</h4>
+    <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+      <span>Subtotal:</span>
+      <span id="orderSubtotal">$0.00</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:5px;color:var(--accent);" id="discountRow" style="display:none;">
+      <span>Discount:</span>
+      <span id="orderDiscount">-$0.00</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-weight:bold;border-top:1px solid rgba(255,255,255,0.1);padding-top:8px;">
+      <span>Total:</span>
+      <span id="orderTotal">$0.00</span>
+    </div>
+  </div>
 
-        <div style="margin-top:12px;">
-          <button type="button" id="goCartBtn" style="padding:10px 16px;border-radius:8px;border:none;background:#555;color:#fff;cursor:pointer;">Go to Cart</button>
-        </div>
-      </form>
+  <form id="paymentForm">
+    <label><input type="radio" name="payment" value="bkash" required> Bkash</label>
+    <label><input type="radio" name="payment" value="nagad" required> Nagad</label>
+    <label><input type="radio" name="payment" value="card" required> Card</label>
+
+    <div id="bkashInterface" class="payment-interface bkash-interface">
+      <div style="display:flex;align-items:center;gap:10px;flex-direction:column;">
+        <img src="images/bkash.png" alt="Bkash" style="width:60px;margin-bottom:10px">
+        <label>Bkash Number</label>
+        <input type="text" placeholder="01XXXXXXXXX" required>
+        <button type="button" id="bkashPayBtn">Pay with Bkash</button>
+      </div>
     </div>
 
-  </div>
+    <div id="nagadInterface" class="payment-interface nagad-interface">
+      <div style="display:flex;align-items:center;gap:10px;flex-direction:column;">
+        <img src="images/nagad.jpg" alt="Nagad" style="width:60px;margin-bottom:10px">
+        <label>Nagad Number</label>
+        <input type="text" placeholder="01XXXXXXXXX" required>
+        <button type="button" id="nagadPayBtn">Pay with Nagad</button>
+      </div>
+    </div>
+
+    <div id="cardInterface" class="payment-interface card-interface">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <label>Card Number</label>
+        <input type="text" placeholder="XXXX XXXX XXXX XXXX" required style="color:#000">
+        <label>Card Holder Name</label>
+        <input type="text" placeholder="Full Name" required style="color:#000">
+        <div style="display:flex;gap:8px;">
+          <div style="flex:1">
+            <label>Expiry</label>
+            <input type="text" placeholder="MM/YY" required style="color:#000">
+          </div>
+          <div style="flex:1">
+            <label>CVV</label>
+            <input type="text" placeholder="XXX" required style="color:#000">
+          </div>
+        </div>
+        <button type="submit" id="cardPayBtn">Pay with Card</button>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;">
+      <button type="button" id="goCartBtn" style="padding:10px 16px;border-radius:8px;border:none;background:#555;color:#fff;cursor:pointer;">Go to Cart</button>
+    </div>
+  </form>
+</div>
+
+    <div style="margin-top:12px;">
+      <button type="button" id="goCartBtn" style="padding:10px 16px;border-radius:8px;border:none;background:#555;color:#fff;cursor:pointer;">Go to Cart</button>
+    </div>
+  </form>
+</div>
 </main>
 
 <!-- LOGIN POPUPS -->
@@ -277,18 +316,84 @@ body{background:var(--bg);color:#fff;min-height:100vh;scroll-behavior:smooth}
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Coffee Data
-  const coffees = {
-    strawberry:{name:'Strawberry Coffee',type:'hot',img:'images/cup2-removebg-preview.png',text:'Freshly brewed strawberry infused coffee.',price:'39.99'},
-    green:{name:'Green Tea Coffee',type:'hot',img:'images/cup3-removebg-preview.png',text:'Smooth matcha green tea latte.',price:'29.99'},
-    choco:{name:'Chocolate Coffee',type:'hot',img:'images/cup4-removebg-preview.png',text:'Velvety cocoa blended coffee.',price:'34.99'},
-    caramel_sauce:{name:'Caramel Sauce & Vanilla Cream',type:'hot',img:'images/caramel-sauce-and-vanilla-cream .png',text:'Caramel sauce with vanilla cream.',price:'42.99'},
-    mint_cookie:{name:'Iced Mint Cookie Latte',type:'iced',img:'images/icedmintcookielatte.png',text:'Refreshing iced mint cookie latte.',price:'36.99'},
-    caramel_mocha:{name:'Iced Caramel Mocha',type:'iced',img:'images/iced-caramel-mocha.png',text:'Chilled caramel mocha.',price:'44.99'}
-  };
+  const API_BASE = 'http://localhost:5000/api';
+
+  // Product list will be loaded from backend
+  let products = [];
+  const productsById = {};
+
+  async function loadProductsFromApi(){
+    try{
+      const res = await fetch(API_BASE + '/products');
+      if(!res.ok) throw new Error('Failed to load products');
+      products = await res.json();
+      products.forEach(p => productsById[p._id] = p);
+      renderProductList();
+      // select first product if none selected
+      const first = products[0];
+      if(first){ selectProductById(first._id); }
+    }catch(err){
+      console.warn('Could not load products from API, using fallback data', err);
+      // Fallback data with all 6 products
+      products = [
+        {
+          _id: '1',
+          name: 'Strawberry Coffee',
+          price: 39.99,
+          category: 'hot',
+          description: 'Freshly brewed strawberry infused coffee.',
+          image: 'images/cup2-removebg-preview.png'
+        },
+        {
+          _id: '2', 
+          name: 'Green Tea Coffee',
+          price: 29.99,
+          category: 'hot',
+          description: 'Smooth matcha green tea latte.',
+          image: 'images/cup3-removebg-preview.png'
+        },
+        {
+          _id: '3',
+          name: 'Chocolate Coffee',
+          price: 34.99,
+          category: 'hot',
+          description: 'Velvety cocoa blended coffee.',
+          image: 'images/cup4-removebg-preview.png'
+        },
+        {
+          _id: '4',
+          name: 'Caramel Sauce & Vanilla Cream',
+          price: 42.99,
+          category: 'hot',
+          description: 'Rich caramel sauce with smooth vanilla cream.',
+          image: 'images/caramel-sauce-and-vanilla-cream.png'
+        },
+        {
+          _id: '5',
+          name: 'Iced Mint Cookie Latte',
+          price: 36.99,
+          category: 'iced',
+          description: 'Refreshing iced mint cookie latte.',
+          image: 'images/icedmintcookielatte.png'
+        },
+        {
+          _id: '6',
+          name: 'Iced Caramel Mocha',
+          price: 44.99,
+          category: 'iced',
+          description: 'Chilled caramel mocha delight.',
+          image: 'images/iced-caramel-mocha.png'
+        }
+      ];
+      products.forEach(p => productsById[p._id] = p);
+      renderProductList();
+      const first = products[0]; 
+      if(first) selectProductById(first._id);
+    }
+  }
 
   // Elements
-  const coffeeList = document.querySelectorAll('#coffeeList h3');
+  const coffeeListContainer = document.getElementById('coffeeList');
   const coffeeImg = document.getElementById('coffee-img');
   const detailsPanel = document.getElementById('detailsPanel');
   const detailsName = document.getElementById('details-name');
@@ -323,18 +428,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const nagadPayBtn = document.getElementById('nagadPayBtn');
 
   // Initialize coffee list click behavior
-  coffeeList.forEach(item => {
-    item.addEventListener('click', () => {
-      coffeeList.forEach(c => c.classList.remove('active'));
-      item.classList.add('active');
-      const key = item.dataset.coffee;
-      const c = coffees[key];
-      coffeeImg.src = c.img;
-      detailsName.textContent = c.name;
-      detailsText.textContent = c.text;
-      detailsPrice.textContent = '$' + c.price;
+  function renderProductList(){
+    if(!coffeeListContainer) return;
+    coffeeListContainer.innerHTML = '';
+    products.forEach(p => {
+      const h = document.createElement('h3');
+      h.dataset.id = p._id;
+      h.dataset.type = p.category || 'coffee';
+      h.textContent = p.name;
+      h.addEventListener('click', () => selectProductById(p._id));
+      coffeeListContainer.appendChild(h);
     });
-  });
+  }
+
+  function selectProductById(id){
+    const p = productsById[id];
+    if(!p) return;
+    // remove active class
+    document.querySelectorAll('#coffeeList h3').forEach(x=>x.classList.remove('active'));
+    const sel = document.querySelector(`#coffeeList h3[data-id='${id}']`);
+    if(sel) sel.classList.add('active');
+    coffeeImg.src = p.image || 'images/cup2-removebg-preview.png';
+    detailsName.textContent = p.name;
+    detailsText.textContent = p.description || '';
+    detailsPrice.textContent = '$' + (parseFloat(p.price)||0).toFixed(2);
+    coffeeImg.dataset.selectedId = id;
+  }
 
   // Details toggle
   moreBtn.addEventListener('click', () => {
@@ -360,6 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     cartTotalEl.textContent = '$' + total.toFixed(2);
   }
+  
   // expose remove function globally for inline onclick to work
   window.removeCartItem = function(i){
     cart.splice(i,1);
@@ -367,8 +487,12 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   addCartBtn.addEventListener('click', () => {
-    const currentKey = document.querySelector('#coffeeList h3.active').dataset.coffee;
-    cart.push({...coffees[currentKey]});
+    const selected = coffeeImg.dataset.selectedId;
+    if(!selected){ alert('Select a product first'); return; }
+    const p = productsById[selected];
+    if(!p) { alert('Product not found'); return; }
+    const item = { productId: p._id, name: p.name, price: parseFloat(p.price)||0, qty: 1 };
+    cart.push(item);
     renderCart();
   });
 
@@ -383,6 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
       reviewForm.reset();
     }
   });
+  
   function renderReviews(){
     reviewList.innerHTML = '';
     reviews.forEach(r => {
@@ -392,17 +517,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Payment visibility logic:
-  // When payment button clicked -> hide coffeeContent (left + right) and show only paymentSection
+  // Payment visibility logic
   paymentBtn.addEventListener('click', () => {
-    // hide coffee content (both left + right)
     coffeeContent.style.display = 'none';
-    // show payment section and reset payment UI
     paymentSection.style.display = 'block';
     bkashInterface.style.display = 'none';
     nagadInterface.style.display = 'none';
     cardInterface.style.display = 'none';
-    // uncheck radios
     paymentForm.querySelectorAll('input[name="payment"]').forEach(r => r.checked = false);
   });
 
@@ -436,7 +557,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const total = cart.reduce((s,i)=>s+parseFloat(i.price),0).toFixed(2);
 
-      // Prompt for customer info (simple flow)
       const custName = prompt('Enter your name for the order (optional):','');
       const custEmail = prompt('Enter your email for the order (optional):','');
 
@@ -448,20 +568,27 @@ document.addEventListener('DOMContentLoaded', () => {
         paymentRef: inputs[0].value.replace(/\s+/g,'')
       };
 
-      fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) })
-        .then(r=>r.json())
-        .then(() => {
+      (async ()=>{
+        try{
+          const res = await fetch(API_BASE + '/orders', { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify(order) 
+          });
+          const data = await res.json().catch(()=>null);
+          if(!res.ok) throw new Error((data && (data.error||data.message)) || `Server error ${res.status}`);
           alert(`Payment of $${total} via Card successful!\nCard Holder: ${inputs[1].value}`);
-          cart = []; renderCart();
+          cart = []; 
+          renderCart();
           paymentForm.reset();
           cardInterface.style.display = 'none';
           paymentSection.style.display = 'none';
           coffeeContent.style.display = 'block';
-        })
-        .catch(err => {
+        }catch(err){
           console.error('Order save failed', err);
-          alert('Payment succeeded but saving order failed. Check server.');
-        });
+          alert('Payment succeeded but saving order failed: ' + (err && err.message ? err.message : err));
+        }
+      })();
     }
   });
 
@@ -482,20 +609,27 @@ document.addEventListener('DOMContentLoaded', () => {
       paymentRef: input
     };
 
-    fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) })
-      .then(r=>r.json())
-      .then(() => {
+    (async ()=>{
+      try{
+        const res = await fetch(API_BASE + '/orders', { 
+          method: 'POST', 
+          headers: { 'Content-Type': 'application/json' }, 
+          body: JSON.stringify(order) 
+        });
+        const data = await res.json().catch(()=>null);
+        if(!res.ok) throw new Error((data && (data.error||data.message)) || `Server error ${res.status}`);
         alert(`Payment of $${total} via Bkash successful!\nNumber: ${input}`);
-        cart = []; renderCart();
+        cart = []; 
+        renderCart();
         bkashInterface.querySelector('input').value = '';
         bkashInterface.style.display = 'none';
         paymentSection.style.display = 'none';
         coffeeContent.style.display = 'block';
-      })
-      .catch(err => {
+      }catch(err){
         console.error('Order save failed', err);
-        alert('Payment succeeded but saving order failed. Check server.');
-      });
+        alert('Payment succeeded but saving order failed: ' + (err && err.message ? err.message : err));
+      }
+    })();
   });
 
   nagadPayBtn.addEventListener('click', () => {
@@ -514,23 +648,30 @@ document.addEventListener('DOMContentLoaded', () => {
       paymentRef: input
     };
 
-    fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) })
-      .then(r=>r.json())
-      .then(() => {
+    (async ()=>{
+      try{
+        const res = await fetch(API_BASE + '/orders', { 
+          method: 'POST', 
+          headers: { 'Content-Type': 'application/json' }, 
+          body: JSON.stringify(order) 
+        });
+        const data = await res.json().catch(()=>null);
+        if(!res.ok) throw new Error((data && (data.error||data.message)) || `Server error ${res.status}`);
         alert(`Payment of $${total} via Nagad successful!\nNumber: ${input}`);
-        cart = []; renderCart();
+        cart = []; 
+        renderCart();
         nagadInterface.querySelector('input').value = '';
         nagadInterface.style.display = 'none';
         paymentSection.style.display = 'none';
         coffeeContent.style.display = 'block';
-      })
-      .catch(err => {
+      }catch(err){
         console.error('Order save failed', err);
-        alert('Payment succeeded but saving order failed. Check server.');
-      });
+        alert('Payment succeeded but saving order failed: ' + (err && err.message ? err.message : err));
+      }
+    })();
   });
 
-  // Mobile menu (if used)
+  // Mobile menu
   const menuBtn = document.getElementById('menuBtn');
   const nav = document.getElementById('nav');
   if(menuBtn){ menuBtn.addEventListener('click', ()=> nav.classList.toggle('show')); }
@@ -542,7 +683,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const signupPopup = document.getElementById('signupPopup');
   if(loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); loginPopup.style.display = 'flex'; });
   if(signupBtn) signupBtn.addEventListener('click', (e) => { e.preventDefault(); signupPopup.style.display = 'flex'; });
-  window.closePopups = function(){ if(loginPopup) loginPopup.style.display='none'; if(signupPopup) signupPopup.style.display='none'; };
+  window.closePopups = function(){ 
+    if(loginPopup) loginPopup.style.display='none'; 
+    if(signupPopup) signupPopup.style.display='none'; 
+  };
 
   // Search & Filter
   const searchInput = document.getElementById('searchInput');
@@ -550,10 +694,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function filterCoffees(){
     const search = searchInput.value.toLowerCase();
     const filter = filterSelect.value;
-    coffeeList.forEach(item=>{
-      const c = coffees[item.dataset.coffee];
-      let show = c.name.toLowerCase().includes(search);
-      if(filter !== 'all') show = show && c.type === filter;
+    document.querySelectorAll('#coffeeList h3').forEach(item=>{
+      const name = (item.textContent || '').toLowerCase();
+      const type = item.dataset.type || '';
+      let show = name.includes(search);
+      if(filter !== 'all') show = show && type === filter;
       item.style.display = show ? 'block' : 'none';
     });
   }
@@ -562,9 +707,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // initial render
   renderCart();
+  // load products from API
+  loadProductsFromApi();
 });
-
-
 </script>
 
 </body>
