@@ -6,62 +6,13 @@
       "email": "demo@user.com",
       "password": "$2a$10$00RikkieK.g1djWkdncrOerf0/8kzsmUyAbHgPI973l07aZqqMk3C",
       "role": "customer"
-    }
-  ],
-  "products": [
-    {
-      "_id": "1",
-      "name": "Strawberry Coffee",
-      "price": 39.99,
-      "category": "hot",
-      "description": "Freshly brewed strawberry infused coffee.",
-      "image": "/images/cup2-removebg-preview.png",
-      "createdAt": "2025-11-23T11:03:35.503Z"
     },
     {
-      "_id": "2",
-      "name": "Green Tea Coffee",
-      "price": 29.99,
-      "category": "hot",
-      "description": "Smooth matcha green tea latte.",
-      "image": "/images/cup3-removebg-preview.png",
-      "createdAt": "2025-11-23T11:03:35.503Z"
-    },
-    {
-      "_id": "3",
-      "name": "Chocolate Coffee",
-      "price": 34.99,
-      "category": "hot",
-      "description": "Velvety cocoa blended coffee.",
-      "image": "/images/cup4-removebg-preview.png",
-      "createdAt": "2025-11-23T11:03:35.503Z"
-    },
-    {
-      "_id": "4",
-      "name": "Caramel Sauce & Vanilla Cream",
-      "price": 42.99,
-      "category": "hot",
-      "description": "Rich caramel sauce with smooth vanilla cream.",
-      "image": "/images/caramel-sauce-and-vanilla-cream.png",
-      "createdAt": "2025-11-23T11:03:35.503Z"
-    },
-    {
-      "_id": "5",
-      "name": "Iced Mint Cookie Latte",
-      "price": 36.99,
-      "category": "iced",
-      "description": "Refreshing iced mint cookie latte.",
-      "image": "/images/icedmintcookielatte.png",
-      "createdAt": "2025-11-23T11:03:35.503Z"
-    },
-    {
-      "_id": "6",
-      "name": "Iced Caramel Mocha",
-      "price": 44.99,
-      "category": "iced",
-      "description": "Chilled caramel mocha delight.",
-      "image": "/images/iced-caramel-mocha.png",
-      "createdAt": "2025-11-23T11:03:35.503Z"
+      "_id": "1763896528849",
+      "name": "Ashiqur Rahman",
+      "email": "ashiqurrahmantusher007@gmail.com",
+      "password": "$2a$10$0ueHVGUnAR9AlrhJPMHmTOblBi40msXZWfm8/VcnNsj3/vQImfoga",
+      "role": "customer"
     }
   ],
   "coupons": [
@@ -84,5 +35,88 @@
       "createdAt": "2025-11-23T11:03:35.504Z"
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "_id": "1763896463621",
+      "items": [
+        {
+          "name": "Strawberry Coffee",
+          "price": 39.99,
+          "qty": 1
+        },
+        {
+          "name": "Chocolate Coffee",
+          "price": 34.99,
+          "qty": 1
+        },
+        {
+          "name": "Iced Caramel Mocha",
+          "price": 44.99,
+          "qty": 1
+        }
+      ],
+      "total": 119.97,
+      "customer": {
+        "name": "TASIN",
+        "email": ""
+      },
+      "paymentMethod": "bkash",
+      "paymentRef": "01726236809",
+      "status": "completed",
+      "createdAt": "2025-11-23T11:14:23.621Z"
+    },
+    {
+      "_id": "1763897290442",
+      "items": [
+        {
+          "name": "Chocolate Coffee",
+          "price": 34.99,
+          "qty": 1
+        },
+        {
+          "name": "Iced Caramel Mocha",
+          "price": 44.99,
+          "qty": 1
+        },
+        {
+          "name": "Caramel Sauce & Vanilla Cream",
+          "price": 42.99,
+          "qty": 1
+        }
+      ],
+      "total": 122.97,
+      "customer": {
+        "name": "salman",
+        "email": ""
+      },
+      "paymentMethod": "bkash",
+      "paymentRef": "01726236894",
+      "status": "pending",
+      "createdAt": "2025-11-23T11:28:10.442Z"
+    },
+    {
+      "_id": "1763898276517",
+      "items": [
+        {
+          "name": "Caramel Sauce & Vanilla Cream",
+          "price": 42.99,
+          "qty": 1
+        },
+        {
+          "name": "Iced Caramel Mocha",
+          "price": 44.99,
+          "qty": 1
+        }
+      ],
+      "total": 87.98,
+      "customer": {
+        "name": "Ayub hossain",
+        "email": ""
+      },
+      "paymentMethod": "bkash",
+      "paymentRef": "01830755756",
+      "status": "pending",
+      "createdAt": "2025-11-23T11:44:36.517Z"
+    }
+  ]
 }

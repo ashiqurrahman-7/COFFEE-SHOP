@@ -9,12 +9,30 @@ require('dotenv').config();
 const app = express();
 
 // Enhanced CORS configuration
+// app.use(cors({
+//   origin: ['http://127.0.0.1:5500', 'http://localhost:5500', 'http://127.0.0.1:3000', 'http://localhost:3000'],
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-key']
+// }));
+// Replace the CORS section at the top
 app.use(cors({
-  origin: ['http://127.0.0.1:5500', 'http://localhost:5500', 'http://127.0.0.1:3000', 'http://localhost:3000'],
+  origin: '*', // Allow ALL computers
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-key']
 }));
+
+// Replace the server startup at the bottom
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🌐 Accessible from lab computers at:`);
+  console.log(`   http://192.168.0.129:5000`);
+  console.log(`   http://192.168.56.1:5000`);
+  console.log(`📊 Demo data initialized with ${database.products.length} products`);
+});
+
 
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
