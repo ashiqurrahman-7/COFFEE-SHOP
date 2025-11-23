@@ -13,6 +13,20 @@
       "email": "ashiqurrahmantusher007@gmail.com",
       "password": "$2a$10$0ueHVGUnAR9AlrhJPMHmTOblBi40msXZWfm8/VcnNsj3/vQImfoga",
       "role": "customer"
+    },
+    {
+      "_id": "1763907147501",
+      "name": "ayub hossain",
+      "email": "ayubhossain@gmail.com",
+      "password": "$2a$10$QRnThNrxNspdKjBOs6JJI.im.YeEMKGCcPatVldbWD/tX1KGn1UIi",
+      "role": "customer"
+    },
+    {
+      "_id": "1763917821304",
+      "name": "sohanur rahman",
+      "email": "sohan89@gmail.com",
+      "password": "$2a$10$d3KtUP6vyVGZefY4ot2VTOAPBI./BpN.r1V7YTfTg1VX3SyBPIoia",
+      "role": "customer"
     }
   ],
   "coupons": [
@@ -33,6 +47,33 @@
       "description": "15% OFF on coffee drinks",
       "active": true,
       "createdAt": "2025-11-23T11:03:35.504Z"
+    },
+    {
+      "_id": "1763907341654",
+      "code": "DHAMAKA",
+      "discount": 25,
+      "expiry": "2025-12-12T00:00:00.000Z",
+      "description": "for practice",
+      "active": false,
+      "createdAt": "2025-11-23T14:15:41.654Z"
+    },
+    {
+      "_id": "1763916029849",
+      "code": "DHAMAKA2",
+      "discount": 30,
+      "expiry": "2025-12-12T00:00:00.000Z",
+      "description": "for practice",
+      "active": true,
+      "createdAt": "2025-11-23T16:40:29.849Z"
+    },
+    {
+      "_id": "1763918103234",
+      "code": "DHAMAKA3",
+      "discount": 40,
+      "expiry": "2025-12-12T00:00:00.000Z",
+      "description": "for practice",
+      "active": true,
+      "createdAt": "2025-11-23T17:15:03.234Z"
     }
   ],
   "orders": [
@@ -115,8 +156,187 @@
       },
       "paymentMethod": "bkash",
       "paymentRef": "01830755756",
-      "status": "pending",
+      "status": "completed",
       "createdAt": "2025-11-23T11:44:36.517Z"
+    },
+    {
+      "_id": "1763902059967",
+      "items": [
+        {
+          "name": "Strawberry Coffee",
+          "price": 39.99,
+          "qty": 1
+        },
+        {
+          "name": "Caramel Sauce & Vanilla Cream",
+          "price": 42.99,
+          "qty": 1
+        }
+      ],
+      "total": 82.98,
+      "customer": {
+        "name": "sakib",
+        "email": ""
+      },
+      "paymentMethod": "bkash",
+      "paymentRef": "01812345690",
+      "status": "completed",
+      "createdAt": "2025-11-23T12:47:39.967Z"
+    },
+    {
+      "_id": "1763906491244",
+      "items": [
+        {
+          "name": "Chocolate Coffee",
+          "price": 34.99,
+          "qty": 1
+        },
+        {
+          "name": "Iced Caramel Mocha",
+          "price": 44.99,
+          "qty": 1
+        },
+        {
+          "name": "Green Tea Coffee",
+          "price": 29.99,
+          "qty": 1
+        }
+      ],
+      "total": 109.97,
+      "customer": {
+        "name": "zim",
+        "email": ""
+      },
+      "paymentMethod": "bkash",
+      "paymentRef": "018111024560",
+      "status": "pending",
+      "createdAt": "2025-11-23T14:01:31.244Z"
+    },
+    {
+      "_id": "1763907239275",
+      "items": [
+        {
+          "name": "Strawberry Coffee",
+          "price": 39.99,
+          "qty": 1
+        },
+        {
+          "name": "Chocolate Coffee",
+          "price": 34.99,
+          "qty": 1
+        },
+        {
+          "name": "Iced Caramel Mocha",
+          "price": 44.99,
+          "qty": 1
+        }
+      ],
+      "total": 119.97,
+      "customer": {
+        "name": "ayub",
+        "email": ""
+      },
+      "paymentMethod": "bkash",
+      "paymentRef": "01711045490",
+      "status": "completed",
+      "createdAt": "2025-11-23T14:13:59.275Z"
+    },
+    {
+      "_id": "1763917693463",
+      "items": [
+        {
+          "name": "Iced Caramel Mocha",
+          "price": 44.99,
+          "qty": 1
+        },
+        {
+          "name": "Iced Caramel Mocha",
+          "price": 44.99,
+          "qty": 1
+        },
+        {
+          "name": "Strawberry Coffee",
+          "price": 39.99,
+          "qty": 1
+        },
+        {
+          "name": "Chocolate Coffee",
+          "price": 34.99,
+          "qty": 1
+        }
+      ],
+      "total": 164.96,
+      "customer": {
+        "name": "Salman",
+        "email": "salman78@gmail.com"
+      },
+      "paymentMethod": "bkash",
+      "paymentRef": "01234567890",
+      "status": "pending",
+      "createdAt": "2025-11-23T17:08:13.463Z"
+    },
+    {
+      "_id": "1763918302591",
+      "items": [
+        {
+          "name": "Chocolate Coffee",
+          "price": 34.99,
+          "qty": 1
+        },
+        {
+          "name": "Caramel Sauce & Vanilla Cream",
+          "price": 42.99,
+          "qty": 1
+        },
+        {
+          "name": "Malai cha",
+          "price": 25,
+          "qty": 1
+        }
+      ],
+      "total": 102.98,
+      "customer": {
+        "name": " ZARIN",
+        "email": "zarin87@gmail.com"
+      },
+      "paymentMethod": "nagad",
+      "paymentRef": "01726236809",
+      "status": "completed",
+      "createdAt": "2025-11-23T17:18:22.591Z"
+    },
+    {
+      "_id": "1763919830453",
+      "items": [
+        {
+          "name": "Chocolate Coffee",
+          "price": 34.99,
+          "qty": 1
+        },
+        {
+          "name": "Malai cha",
+          "price": 25,
+          "qty": 1
+        },
+        {
+          "name": "Iced Caramel Mocha",
+          "price": 44.99,
+          "qty": 1
+        },
+        {
+          "name": "Strawberry Coffee",
+          "price": 39.99,
+          "qty": 1
+        }
+      ],
+      "total": 144.97,
+      "customer": {
+        "name": "sami",
+        "email": ""
+      },
+      "paymentMethod": "bkash",
+      "paymentRef": "013545446448",
+      "status": "pending",
+      "createdAt": "2025-11-23T17:43:50.453Z"
     }
   ]
 }
